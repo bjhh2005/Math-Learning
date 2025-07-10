@@ -311,3 +311,30 @@ TSWLatexianTemp*
 # option is specified. Footnotes are the stored in a file with suffix Notes.bib.
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
+
+
+## Ignore all LaTeX intermediate files in note directory
+note/*.aux
+note/*.lof
+note/*.log
+note/*.lot
+note/*.fls
+note/*.out
+note/*.toc
+note/*.fmt
+note/*.fot
+note/*.cb
+note/*.cb2
+
+## Ignore all LaTeX intermediate files in chap directory
+chap/*.aux
+chap/*.lof
+chap/*.log
+chap/*.lot
+chap/*.fls
+chap/*.out
+chap/*.toc
+chap/*.fmt
+chap/*.fot
+chap/*.cb
+chap/*.cb2
