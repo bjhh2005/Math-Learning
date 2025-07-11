@@ -275,9 +275,40 @@ If $S$ is indexed by the function $f: I\rightarrow S$ we write the element $f(i)
 
 \begin{purple}
 \begin{definition}
-A sequence of length $n$ on a set $X$ is a function $x: \{0,1,\cdots,n-1\}\rightarrow X$.
+A sequence of length $n$ on a set $X$ is a function $x:\{0,1,\cdots,n-1\}\rightarrow X$.
+
+At times, we will use the same term to designate a function $x:\{1,2,\cdots,n\}\rightarrow X$.
+
+The set of sequence of length $n$ on a set $X$ is denoted by $\text{Seq}_n(X)$.
+
+An infinite sequence, or simply, a sequence on a set $X$ is a function $x:\mathcal{N}\rightarrow X$. The set of infinite sequences on $X$ is denoted by $\text{Seq}(X)$.
+
+Let $S_0,\cdots,S_{n-1}$ be $n$ sets. An $n$-tuple on $S_0,\cdots, S_{n-1}$ is a function $t:\{0,\cdots,n-1\}\rightarrow S_0\cup\cdots S_{n-1}$ such that $t(i)\in S_i$ for $0\le i\le n-1$. The $n$-tuple $t$ is denoted by $(t(0),\cdots,t(n-1))$.
+
+The set of all n-tuples on $S_0,\cdots,S_{n-1}$ is referred to as the Cartesian product of $S_0,\cdots, S_{n-1}$ and is denoted by $S_0\times \cdots\times S_{n-1}$.
 \end{definition}
 \end{purple}
+
+
+The Cartesian product of a finite number of sets can be generalized for arbitrary families of sets. Let $\mathcal{S}=\{S_i|i\in I\}$ be a collection of sets indexed by the set $I$. The Cartesian product of $\mathcal{S}$ is the set of all functions of the form $s:I\rightarrow \bigcup\mathcal{S}$ such that $s(i)\in S_i$ for every $i\in I$. This set is denoted by $\prod_{i\in I}S_i$.
+
+\begin{purple}
+\begin{definition}
+Let $\mathcal{S}=\{S_i|i\in I\}$ be a collection of sets indexed by the set $I$. The $j^{th}$ projection (for $j\in I$) is the mapping $p_j:\prod_{i\in I}S_i\rightarrow S_j$ defined by $p_j(s)=s(j)$ for $j\in I$.
+
+Let $X$, $Y$ be two sets and let $f: X\rightarrow Y$ be a function. If $U\subseteq\text{Dom}(f)$, the image of $U$ under $f$ is the set 
+$$
+f(U)=\{y\in Y|y=f(u)\text{ for some } u\in X\}.
+$$
+If $T\subseteq Y$, the pre-image of $T$ under $f$ is the set $f^{-1}(T)=\{x\in X|f(x)\in Y\}$.
+\end{definition}
+\end{purple}
+
+\begin{yellow}
+\begin{theorem}
+Let $X$,$Y$ be two sets and let $f:X\rightarrow Y$
+\end{theorem}
+\end{yellow}
 \end{document}
 
 

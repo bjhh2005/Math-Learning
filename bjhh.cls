@@ -14,6 +14,7 @@
 \RequirePackage{fancyhdr}
 \RequirePackage{framed}
 \RequirePackage{geometry}
+\RequirePackage{graphicx}
 \RequirePackage[colorlinks,linkcolor=black]{hyperref}
 \RequirePackage{mathabx}
 \RequirePackage{newtxtext}
@@ -31,6 +32,8 @@
 \definecolor{DarkBlue}{HTML}{00008B} 
 \definecolor{DarkGreen}{HTML}{006400}
 \definecolor{DarkYellow}{HTML}{FFA200}
+
+\newcommand{\coverimage}[1]{\def\cover@image{#1}}
 
 % 笔记环境命令
 \newcommand{\setupnote}{%
@@ -88,23 +91,37 @@
     \newtheorem{theorem}{Theorem}[subsection]
 }
 
-% 标题页命令
-\newcommand{\makemytitle}[3]{%
+% 标题页设计
+\newcommand{\makemytitle}[4][]{
     \begin{titlepage}
         \centering
         \fontfamily{ptm}\selectfont % Times New Roman
-        {\Large\bfseries #1\par}
+        
+        % 顶部标题
+        {\Large\bfseries #2\par}
         \vspace{1cm}
-        \rule{\textwidth}{0.4pt}\par % 标题装饰线
+        
+        % 标题分隔线
+        \rule{\textwidth}{0.4pt}\par
         \vspace{1.5cm}
-        {\Huge\bfseries #2\par}
+        
+        % 中央图片区域
+        \ifdefined\cover@image
+            \includegraphics[width=0.8\linewidth]{\cover@image}
+            \par
+        \else
+            {\Huge\bfseries #1} % 备用标题
+            \par
+        \fi
         \vfill
+        
+        % 底部信息
         {\large\bfseries #3\par}
         \vspace{1cm}
         {\large School of Computer Science\par}
         {\large\bfseries WuHan University\par}
         \vspace{0.5cm}
-        {\large \@date\par}
+        {\large #4\par}
     \end{titlepage}
 }
 
@@ -114,3 +131,4 @@
     \fancyhf{} % 清除所有页眉页脚
     \renewcommand{\headrulewidth}{0pt} % 去掉页眉下划线
 }
+
