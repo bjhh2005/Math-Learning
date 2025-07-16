@@ -306,9 +306,187 @@ If $T\subseteq Y$, the pre-image of $T$ under $f$ is the set $f^{-1}(T)=\{x\in X
 
 \begin{yellow}
 \begin{theorem}
-Let $X$,$Y$ be two sets and let $f:X\rightarrow Y$
+Let $X$,$Y$ be two sets and let $f:X\rightarrow Y$ be a function. If $V\subseteq Y$, then $X-f^{-1}(V)=f^{-1}(Y-V)$.
 \end{theorem}
 \end{yellow}
+
+\begin{yellow}
+\begin{theorem}
+Let $f:X\rightarrow Y$ be a function. We have $U\subseteq f^{-1}(f(U))$ for every subset $U$ of $X$ and $f(f^{-1}(V))\subseteq V $ for every subset $V$ of $Y$.
+
+Let $f: X\rightarrow Y$ be a function. If $U$, $V\subseteq\text{Dom}(f)$ we have $f(U\cup V)=f(U)\cup f(V)$ and $f(U\cap V)\subseteq f(U)\cap f(V)$.
+
+If $S$,$T\subseteq\text{Ran}(f)$, then $f^{-1}(S\cup T)=f^{-1}(S)\cup f^{-1}(T)$ and $f^{-1}(S\cup T)=f^{-1}(S)\cap f^{-1}(T)$.
+\end{theorem}
+\end{yellow}
+
+\begin{yellow}
+\begin{theorem}
+
+Let $f:X\rightarrow Y$ be a function. We have $U\subseteq f^{-1}(f(U))$ for every subset $U$ of $X$ and $f(f^{-1}(V))\subseteq V$ for every subset $V$ of $V$.
+
+\end{theorem}
+\end{yellow}
+
+
+\textbf{1. Why does the image "shrink"?}
+
+\textbf{Reason: The function may be a ``partial mapping'' or ``not surjective.''}
+\begin{itemize}
+    \item Given $f: X \to Y$ and $V \subseteq Y$, when computing $f(f^{-1}(V))$:
+    \begin{itemize}
+        \item $f^{-1}(V)$ takes all elements in $X$ that can be mapped to $V$.
+        \item However, $f$ may not cover the entire $Y$ (i.e., $f$ is not necessarily surjective), so $f(f^{-1}(V))$ only contains the part of $V$ that is \textit{actually} mapped by $f$. Thus:
+        $$
+            f(f^{-1}(V)) \subseteq V
+        $$
+    \end{itemize}
+    \item \textbf{Extreme cases:}
+    \begin{itemize}
+        \item If $V$ is entirely outside the image of $f$ (i.e., $V \cap f(X) = \emptyset$), then $f^{-1}(V) = \emptyset$, so $f(f^{-1}(V)) = \emptyset \subseteq V$ (still holds but shrinks to the empty set).
+        \item If $f$ is surjective, then $f(f^{-1}(V)) = V$ (equality holds).
+    \end{itemize}
+\end{itemize}
+
+\textbf{2. Why does the preimage "expand"?}
+
+\textbf{Reason: The function may be ``many-to-one".}
+\begin{itemize}
+    \item Given $U \subseteq X$, when calculating $f^{-1}(f(U))$:
+    \begin{itemize}
+        \item $f(U)$ is the image of $U$ in $Y$.
+        \item $f^{-1}(f(U))$ takes all elements in $X$ that can be mapped to $f(U)$.
+        \item Since $f$ may be ``many-to-one", there may be additional $x \notin U$ that are also mapped to $f(U)$, so:
+        $$
+            U \subseteq f^{-1}(f(U))
+        $$
+    \end{itemize}
+    \item \textbf{Extreme cases:}
+    \begin{itemize}
+        \item If $f$ is injective (one-to-one), then $U = f^{-1}(f(U))$ (the equality holds).
+        \item If $f$ is a constant function (all $x$ are mapped to the same $y$), then $f^{-1}(f(U)) = X$ (great expansion).
+    \end{itemize}
+\end{itemize}
+
+\begin{yellow}
+\begin{theorem}
+    
+Let $X$, $Y$ be two sets and let $f:X\rightarrow Y$ be a function. If $U\subseteq X$, then $\text{Ran}(f)-f(U)\subseteq f(\text{Dom}(f) - U)$. If $f$ is injective, then $\text{Ran}(f)-f(U)=f(\text{Dom}(f)-U)$.
+
+\end{theorem}
+\end{yellow}
+
+\textbf{Theorem Statement:} All images not mapped by $U$ must come from the mapping of $X-U$. If $f$ is injective, then the two sets are exactly equal.
+
+\begin{yellow}
+\begin{theorem}
+    
+Let $f:X\rightarrow X$ be an injection. We have $f(\overline U)=\overline{f(U)}$ for every subset $U$ of $X$.
+
+\end{theorem}
+\end{yellow}
+
+\begin{yellow}
+\begin{theorem}
+
+Let $f:X\rightarrow Y$ be a function. If $V,W\subseteq Y$, then $f^{-1}(V-W)=f^{-1}(V)-f^{-1}(W)$. Furthermore, if $\mathcal{C}=\{Y_i|i\in I\}$ is a collection of subsets of $Y$ we have $f^{-1}(\bigcap_{i\in I}C_i)=\bigcap_{i\in I}f^{-1}(C_i)$ and $f^{-1}(\bigcup_{i\in I}C_i)=\bigcup_{i\in I}f^{-1}(C_i)$.
+
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+
+Let $x \in f^{-1}(V-W)$. We have $f(x) \in V$ and $f(x) \notin W$. Therefore, $x \in f^{-1}(V)$ and $x \notin f^{-1}(W)$, so $x \in f^{-1}(V)-f^{-1}(W)$. 
+
+Conversely, suppose that $x \in f^{-1}(V)-f^{-1}(U)$, that is, $x \in f^{-1}(V)$ and $x \notin f^{-1}(U)$. This means that $f(x) \in V$ and $f(x) \notin U$, so $f(x) \in V-U$, which yields $f(x) \in V-U$. Thus, $x \in f^{-1}(V-U)$, which concludes the proof of the first equality.
+\end{proof}
+
+\begin{green}
+
+The inverse image operation $f^{-1}$ completely preserves all basic set operations:
+\begin{itemize}
+    \item Difference set: $f^{-1}(V - W) = f^{-1}(V) - f^{-1}(W)$
+    \item Arbitrary intersection: $f^{-1}\left(\bigcap_{i\in I} C_{i}\right) = \bigcap_{i\in I} f^{-1}(C_{i})$
+    \item Arbitrary union: $f^{-1}\left(\bigcup_{i\in I} C_{i}\right) = \bigcup_{i\in I} f^{-1}(C_{i})$
+\end{itemize}
+
+\end{green}
+
+\begin{purple}
+\begin{definition}
+
+Let $X$, $Y$ be two finite non-empty and disjoint sets and let $\rho$ be a relation, $\rho\subseteq X\times Y$. A perfect matching for $\rho$ is an injective mapping $f:X\rightarrow Y$ such that if $y=f(x)$, then $(x,y)\in \rho$.
+
+For a subset $A$ of $X$ define the set $\rho[A]$ as 
+$$
+\rho[A]=\{y\in Y|(x,y)\in\rho\text{ for some} x\in A\}.
+$$
+\end{definition}
+\end{purple}
+
+\begin{yellow}
+\begin{theorem}
+
+\textbf{(Hall's Perfect Matching Theorem)}: Let $X$,$Y$ be two finite non-empty and disjoint sets and let $\rho$ be a relation, $\rho\in X\times Y$. There exists a perfect matching for $\rho$ if and only if for every $A\in \mathcal{P}(X)$ we have $|\rho[A]|\ge|A|$. 
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+The proof is by induction on $|X|$. If $|X|=1$, the statement is immediate.
+
+Suppose that the statement holds for $|X|\leqslant n$ and consider a set $X$ with $|X|=n+1$. We need to consider two cases: either $|\rho[A]|>|A|$ for every subset $A$ of $X$, or there exists a subset $A$ of $X$ such that $|\rho[A]|=|A|$.
+
+In the first case, since $|\rho[\{x\}]|>1$ there exists $y\in Y$ such that $(x,y)\in\rho$.
+
+Let $X^{\prime}=X-\{x\}$, $Y^{\prime}=Y-\{y\}$, and let $\rho^{\prime}=\rho\cap(X^{\prime}\times Y^{\prime})$. Note that for every $B\subseteq X^{\prime}$ we have $|\rho^{\prime}[B]|\geqslant|B|+1$ because for every subset $A$ of $X$ we have $|\rho[A]|\geqslant|A|+1$ and deleting a single element $y$ from $\rho[A]$ still leaves at least $|A|$ elements in this set. By the inductive hypothesis, there exists a perfect matching $f^{\prime}$ for $\rho^{\prime}$. This matching extends to a matching $f$ for $\rho$ by defining $f(x)=y$.
+
+In the second case, let $A$ be a proper subset of $X$ such that $|\rho[A]|=|A|$. Define the sets $X^{\prime},Y^{\prime},X^{\prime\prime},Y^{\prime\prime}$ as
+$$
+\begin{array}{ll}
+X^{\prime}=A, & X^{\prime\prime}=X-A, \\
+Y^{\prime}=\rho[A], & Y^{\prime\prime}=Y-\rho[A]
+\end{array}
+$$
+and consider the relations $\rho^{\prime}=\rho\cap(X^{\prime}\times Y^{\prime})$, and $\rho^{\prime\prime}=\rho\cap(X^{\prime\prime}\times Y^{\prime\prime})$. We shall prove that there are perfect matchings $f^{\prime}$ and $f^{\prime\prime}$ for the relations $\rho^{\prime}$ and $\rho^{\prime\prime}$. A perfect matching for $\rho$ will be given by $f^{\prime}\cup f^{\prime\prime}$.
+
+Since $A$ is a proper subset of $X$ we have both $|A|\leqslant n$ and $|X-A|\leqslant n$.
+
+For any subset $B$ of $A$ we have $\rho^{\prime}[B]=\rho[B]$, so $\rho^{\prime}$ satisfies the condition of the theorem and a perfect matching $f^{\prime}$ for $\rho^{\prime}$ exists.
+
+Suppose that there exists $C\subseteq X^{\prime\prime}$ such that $|\rho^{\prime\prime}[C]|<|C|$. This would imply $|\rho[C\cup A]|<|C\cup A|$ because $\rho[C\cup A]=\rho^{\prime\prime}[C]\cup\rho[A]$, which is impossible. Thus, $\rho^{\prime\prime}$ also satisfies the condition of the theorem and a perfect matching exists for $\rho^{\prime\prime}$.
+\end{proof}
+
+\begin{green}
+    
+\textbf{Implication:} The theorem reduces the problem of matching existence to verifying local constraints on every subset of the graph, bypassing the need for explicit matching construction.
+
+\end{green}
+
+
+
+\subsection{Sequences and Collections of Sets}
+
+\begin{purple}
+\begin{definition}
+
+A sequence of $S=(S_0,S_1,\cdots,S_n,\cdots)$ is expanding if $i<j$ implies $S_i\subseteqq S_j$ for every $i,j\in \mathbb{N}$.
+
+
+If $i<j$ implies $S_j \subseteq S_i$ for every $i,j\in \mathbb{N}$, then we say that $S$ is a contracting sequence of sets.
+
+A sequence of sets is monotone if it is expanding or contracting.
+\end{definition}
+\end{purple}
+
+\begin{purple}
+\begin{definition}
+Let $S$ be an infinite sequence of subsets of a set $S$, where $S(i)=S_i$ for $i\in \mathbb{N}$.
+
+The set $\bigcup_{i=0}^\infty\bigcap_{j=i}^{\infty}S_j$ is referred to as the lower limit of $S$; the set $\bigcap_{i=0}^{\infty}\bigcup_{j=i}^{\infty} S_j$ is the upper limit of $S$. These two sets are denoted by $\lim\inf S$ and $\lim\sup S$, respectively.
+\end{definition}
+\end{purple}
+
+
 \end{document}
 
 
