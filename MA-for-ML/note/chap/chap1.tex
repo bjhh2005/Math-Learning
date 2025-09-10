@@ -133,6 +133,7 @@ Next, we will employ the method of characteristic functions to complete the proo
 \end{align*}
 \end{proof}
 
+
 \begin{purple}
 \begin{definition}
     Below are several concepts pertaining to sets.
@@ -162,16 +163,16 @@ Let $\mathcal{C}$ and $\mathcal{D}$ be two collections of sets.
 \end{definition}
 \end{purple}
 
-Attention, unlike $\cup$ and $cap$, the operations $\lor$ and $\land$ between collections of sets are not idempotent. Indeed, we have, for example, 
+Attention, unlike $\cup$ and $\cap$, the operations $\lor$ and $\land$ between collections of sets are not idempotent. Indeed, we have, for example, 
 $$
 \mathcal{D}\lor\mathcal{D}=\{\{y\},\{x,y\},\{u, y, z\},\{u,x,y,z\}\}\neq\mathcal{D}.
 $$
 
 \begin{purple}
 \begin{definition}
-A partition of a non-empty subsets of $S$ that are pairwise disjoint and whose union equals $S$. 
+A \textbf{partition} of a non-empty subsets of $S$ that are pairwise disjoint and whose union equals $S$. 
 
-The members of $\pi$ are referred to as the blocks of the partition $\pi$. The collection of partitions of a set $S$ is denoted by $PART(S)$. A partition is finite if it has a finite number of blocks. The set of finite partitions of $S$ is denoted by $PART_{fin}(S)$.
+The \textbf{members} of $\pi$ are referred to as the blocks of the partition $\pi$. The collection of partitions of a set $S$ is denoted by $PART(S)$. A partition is finite if it has a finite number of blocks. The set of finite partitions of $S$ is denoted by $PART_{fin}(S)$.
 
 If $\pi\in PART(S)$ then a subset $T$ of $S$ is $\pi$-saturated if it is a union of blocks of $\pi$.
 \end{definition}
@@ -243,7 +244,7 @@ If $f$ both injective and surjective, then it is a \textbf{bijective} function.
 \begin{theorem}
 A function $f: X\rightarrow Y$ is injective if and only if there exists a function $g: Y\rightarrow X$ such that $g(f(x))=x$ for every $x\in \textbf{Dom}(f)$. 
 
-A function $f: X\rightarrow Y$ is surjective if and only if there exists a function $h: X\rightarrow Y$ such that $f(h(y))=y$ for every $y\in Y$. 
+A function $f: X\rightarrow Y$ is surjective if and only if there exists a function $h: Y\rightarrow X$ such that $f(h(y))=y$ for every $y\in Y$. 
 \end{theorem}
 \end{yellow}
 
@@ -252,7 +253,7 @@ Here we provide the proof for the latter theorem.
 \begin{proof}
 Suppose that $f$ is a surjective function. The collection $\{f^{-1}(y)|y\in Y\}$ indexed by $Y$ consists of non-empty sets. By the Axiom of Choice there exists a choice function for this collection, that is a function $h: Y\rightarrow \bigcup_{y\in Y}f^{-1}(y)$ such that $h(y)\in f^{-1}(y)$, or $f(h(y))=y$ for $y\in Y$.
 
-Conversely, suppose that there exists a function $h: X\rightarrow Y$ such that $f(h(y))=y$ for every $y\in Y$. Then, $f(x)=y$ for $y=h(y)$, which shows that $f$ is surjective.
+Conversely, suppose that there exists a function $h: Y\rightarrow X$ such that $f(h(y))=y$ for every $y\in Y$. Then, $f(x)=y$ for $x=h(y)$, which shows that $f$ is surjective.
 \end{proof}
 
 \begin{green}
@@ -279,7 +280,7 @@ A sequence of length $n$ on a set $X$ is a function $x:\{0,1,\cdots,n-1\}\righta
 
 At times, we will use the same term to designate a function $x:\{1,2,\cdots,n\}\rightarrow X$.
 
-The set of sequence of length $n$ on a set $X$ is denoted by $\text{Seq}_n(X)$.
+The set of sequence of length $n$ on a set $X$ is denoted by $\text{Seq}_n(X)$ which is the $n$-fold Cartesian product essentially.
 
 An infinite sequence, or simply, a sequence on a set $X$ is a function $x:\mathcal{N}\rightarrow X$. The set of infinite sequences on $X$ is denoted by $\text{Seq}(X)$.
 
@@ -310,21 +311,30 @@ Let $X$,$Y$ be two sets and let $f:X\rightarrow Y$ be a function. If $V\subseteq
 \end{theorem}
 \end{yellow}
 
+\begin{green}
+    
+\textbf{Theorem Statement: } The preimage of the complement of $V$ is equal to the complement of the preimage of $V$.
+
+\end{green}
+
+
+\begin{proof}
+    
+Let $x \in X - f^{-1}(V)$. Then $x \notin f^{-1}(V)$, so $f(x) \notin V$. Since $f(x) \in Y$, it follows that $f(x) \in Y - V$. By the definition of preimage, $x \in f^{-1}(Y - V)$. Thus, $X - f^{-1}(V) \subseteq f^{-1}(Y - V)$.
+
+Let $x \in f^{-1}(Y - V)$. Then $f(x) \in Y - V$, which implies $f(x) \notin V$. Therefore, $x \notin f^{-1}(V)$, and since $x \in X$, we have $x \in X - f^{-1}(V)$. Hence, $f^{-1}(Y - V) \subseteq X - f^{-1}(V)$.
+
+Since both inclusions hold, we conclude that $X - f^{-1}(V) = f^{-1}(Y - V)$.
+
+\end{proof}
+
 \begin{yellow}
 \begin{theorem}
 Let $f:X\rightarrow Y$ be a function. We have $U\subseteq f^{-1}(f(U))$ for every subset $U$ of $X$ and $f(f^{-1}(V))\subseteq V $ for every subset $V$ of $Y$.
 
 Let $f: X\rightarrow Y$ be a function. If $U$, $V\subseteq\text{Dom}(f)$ we have $f(U\cup V)=f(U)\cup f(V)$ and $f(U\cap V)\subseteq f(U)\cap f(V)$.
 
-If $S$,$T\subseteq\text{Ran}(f)$, then $f^{-1}(S\cup T)=f^{-1}(S)\cup f^{-1}(T)$ and $f^{-1}(S\cup T)=f^{-1}(S)\cap f^{-1}(T)$.
-\end{theorem}
-\end{yellow}
-
-\begin{yellow}
-\begin{theorem}
-
-Let $f:X\rightarrow Y$ be a function. We have $U\subseteq f^{-1}(f(U))$ for every subset $U$ of $X$ and $f(f^{-1}(V))\subseteq V$ for every subset $V$ of $V$.
-
+If $S$,$T\subseteq\text{Ran}(f)$, then $f^{-1}(S\cup T)=f^{-1}(S)\cup f^{-1}(T)$ and $f^{-1}(S\cap T)=f^{-1}(S)\cap f^{-1}(T)$.
 \end{theorem}
 \end{yellow}
 
@@ -371,20 +381,19 @@ Let $f:X\rightarrow Y$ be a function. We have $U\subseteq f^{-1}(f(U))$ for ever
 \begin{yellow}
 \begin{theorem}
     
-Let $X$, $Y$ be two sets and let $f:X\rightarrow Y$ be a function. If $U\subseteq X$, then $\text{Ran}(f)-f(U)\subseteq f(\text{Dom}(f) - U)$. If $f$ is injective, then $\text{Ran}(f)-f(U)=f(\text{Dom}(f)-U)$.
+Let $X$, $Y$ be two sets and let $f:X\rightarrow Y$ be a function. If $U\subseteq X$, then $\text{Ran}(f)-f(U)\subseteq f(\text{Dom}(f) - U)$. If $f$ is injective, then $\text{Ran}(f)-f(U)=f(\text{Dom}(f)-U)$. 
+
+Furthermore, let $f:X\rightarrow X$ be an injection. We have $f(\overline U)=\overline{f(U)}$ for every subset $U$ of $X$.
 
 \end{theorem}
 \end{yellow}
 
+\begin{green}
+    
 \textbf{Theorem Statement:} All images not mapped by $U$ must come from the mapping of $X-U$. If $f$ is injective, then the two sets are exactly equal.
 
-\begin{yellow}
-\begin{theorem}
-    
-Let $f:X\rightarrow X$ be an injection. We have $f(\overline U)=\overline{f(U)}$ for every subset $U$ of $X$.
+\end{green}
 
-\end{theorem}
-\end{yellow}
 
 \begin{yellow}
 \begin{theorem}
@@ -394,11 +403,54 @@ Let $f:X\rightarrow Y$ be a function. If $V,W\subseteq Y$, then $f^{-1}(V-W)=f^{
 \end{theorem}
 \end{yellow}
 
+
 \begin{proof}
+We prove each part separately.
 
-Let $x \in f^{-1}(V-W)$. We have $f(x) \in V$ and $f(x) \notin W$. Therefore, $x \in f^{-1}(V)$ and $x \notin f^{-1}(W)$, so $x \in f^{-1}(V)-f^{-1}(W)$. 
+\noindent\textbf{Part 1:} $f^{-1}(V-W)=f^{-1}(V)-f^{-1}(W)$
 
-Conversely, suppose that $x \in f^{-1}(V)-f^{-1}(U)$, that is, $x \in f^{-1}(V)$ and $x \notin f^{-1}(U)$. This means that $f(x) \in V$ and $f(x) \notin U$, so $f(x) \in V-U$, which yields $f(x) \in V-U$. Thus, $x \in f^{-1}(V-U)$, which concludes the proof of the first equality.
+($\subseteq$) Let $x \in f^{-1}(V-W)$. Then $f(x) \in V-W$, so $f(x) \in V$ and $f(x) \notin W$. 
+Therefore, $x \in f^{-1}(V)$ and $x \notin f^{-1}(W)$, which implies $x \in f^{-1}(V)-f^{-1}(W)$. 
+Thus, $f^{-1}(V-W) \subseteq f^{-1}(V)-f^{-1}(W)$.
+
+($\supseteq$) Conversely, let $x \in f^{-1}(V)-f^{-1}(W)$. Then $x \in f^{-1}(V)$ and $x \notin f^{-1}(W)$, 
+so $f(x) \in V$ and $f(x) \notin W$. Hence, $f(x) \in V-W$, which means $x \in f^{-1}(V-W)$. 
+Thus, $f^{-1}(V)-f^{-1}(W) \subseteq f^{-1}(V-W)$.
+
+Therefore, $f^{-1}(V-W) = f^{-1}(V)-f^{-1}(W)$.
+
+\medskip
+
+\noindent\textbf{Part 2:} $f^{-1}\left(\bigcap_{i\in I}Y_i\right) = \bigcap_{i\in I}f^{-1}(Y_i)$
+
+($\subseteq$) Let $x \in f^{-1}\left(\bigcap_{i\in I}Y_i\right)$. Then $f(x) \in \bigcap_{i\in I}Y_i$, 
+so for every $i \in I$, $f(x) \in Y_i$. This implies that for every $i \in I$, $x \in f^{-1}(Y_i)$. 
+Thus, $x \in \bigcap_{i\in I}f^{-1}(Y_i)$. Hence, $f^{-1}\left(\bigcap_{i\in I}Y_i\right) \subseteq \bigcap_{i\in I}f^{-1}(Y_i)$.
+
+($\supseteq$) Conversely, let $x \in \bigcap_{i\in I}f^{-1}(Y_i)$. Then for every $i \in I$, $x \in f^{-1}(Y_i)$, 
+so for every $i \in I$, $f(x) \in Y_i$. This means $f(x) \in \bigcap_{i\in I}Y_i$, 
+so $x \in f^{-1}\left(\bigcap_{i\in I}Y_i\right)$. 
+Thus, $\bigcap_{i\in I}f^{-1}(Y_i) \subseteq f^{-1}\left(\bigcap_{i\in I}Y_i\right)$.
+
+Therefore, $f^{-1}\left(\bigcap_{i\in I}Y_i\right) = \bigcap_{i\in I}f^{-1}(Y_i)$.
+
+\medskip
+
+\noindent\textbf{Part 3:} $f^{-1}\left(\bigcup_{i\in I}Y_i\right) = \bigcup_{i\in I}f^{-1}(Y_i)$
+
+($\subseteq$) Let $x \in f^{-1}\left(\bigcup_{i\in I}Y_i\right)$. Then $f(x) \in \bigcup_{i\in I}Y_i$, 
+so there exists some $i \in I$ such that $f(x) \in Y_i$. This implies that $x \in f^{-1}(Y_i)$ for that $i$, 
+so $x \in \bigcup_{i\in I}f^{-1}(Y_i)$. 
+Hence, $f^{-1}\left(\bigcup_{i\in I}Y_i\right) \subseteq \bigcup_{i\in I}f^{-1}(Y_i)$.
+
+($\supseteq$) Conversely, let $x \in \bigcup_{i\in I}f^{-1}(Y_i)$. Then there exists some $i \in I$ such that $x \in f^{-1}(Y_i)$, 
+so $f(x) \in Y_i$. Since $Y_i \subseteq \bigcup_{i\in I}Y_i$, we have $f(x) \in \bigcup_{i\in I}Y_i$, 
+which means $x \in f^{-1}\left(\bigcup_{i\in I}Y_i\right)$. 
+Thus, $\bigcup_{i\in I}f^{-1}(Y_i) \subseteq f^{-1}\left(\bigcup_{i\in I}Y_i\right)$.
+
+Therefore, $f^{-1}\left(\bigcup_{i\in I}Y_i\right) = \bigcup_{i\in I}f^{-1}(Y_i)$.
+
+This completes the proof of all three parts.
 \end{proof}
 
 \begin{green}
@@ -458,7 +510,7 @@ Suppose that there exists $C\subseteq X^{\prime\prime}$ such that $|\rho^{\prime
 
 \begin{green}
     
-\textbf{Implication:} The theorem reduces the problem of matching existence to verifying local constraints on every subset of the graph, bypassing the need for explicit matching construction.
+\textbf{Implication:} The theorem reduces the problem of matching existence to \textbf{verifying local constraints on every subset of the graph}, bypassing the need for explicit matching construction.
 
 \end{green}
 
@@ -469,7 +521,7 @@ Suppose that there exists $C\subseteq X^{\prime\prime}$ such that $|\rho^{\prime
 \begin{purple}
 \begin{definition}
 
-A sequence of $S=(S_0,S_1,\cdots,S_n,\cdots)$ is expanding if $i<j$ implies $S_i\subseteqq S_j$ for every $i,j\in \mathbb{N}$.
+A sequence of $S=(S_0,S_1,\cdots,S_n,\cdots)$ is expanding if $i<j$ implies $S_i\subseteq S_j$ for every $i,j\in \mathbb{N}$.
 
 
 If $i<j$ implies $S_j \subseteq S_i$ for every $i,j\in \mathbb{N}$, then we say that $S$ is a contracting sequence of sets.
@@ -483,9 +535,178 @@ A sequence of sets is monotone if it is expanding or contracting.
 Let $S$ be an infinite sequence of subsets of a set $S$, where $S(i)=S_i$ for $i\in \mathbb{N}$.
 
 The set $\bigcup_{i=0}^\infty\bigcap_{j=i}^{\infty}S_j$ is referred to as the lower limit of $S$; the set $\bigcap_{i=0}^{\infty}\bigcup_{j=i}^{\infty} S_j$ is the upper limit of $S$. These two sets are denoted by $\lim\inf S$ and $\lim\sup S$, respectively.
+
+Clearly, we have $\lim\inf S\subseteq \lim\sup S$.
 \end{definition}
 \end{purple}
 
+\begin{green}
+    
+Intuitively, the lower limit contains elements that are \textbf{always present after a certain point}, whereas the upper limit contains elements that are \textbf{repeatedly present, but not necessarily always}.
+
+\end{green}
+
+\begin{purple}
+\begin{definition}
+    
+A sequence of sets $S$ is convergent if $\lim\inf S=\lim\sup S$. In this case the set $L=\lim\inf S=\lim\sup S$ is said to be the limit of the sequence $S$ and is denoted by $\lim S$.
+\end{definition}
+\end{purple}
+
+\begin{green}
+    
+Every \textbf{expanding} sequence of sets is convergent.
+
+\end{green}
+
+
+\begin{purple}
+\begin{definition}
+
+Let $\mathcal{C}$ be a collection of subsets of a set $S$. The collection $\mathcal{C}_{\sigma}$ consists of all countable unions of members of $\mathcal{C}$.
+
+The  collection $\mathcal{C}_{\delta}$ consists of all countable intersections of members of $\mathcal{C}$,
+$$
+\mathcal{C}_{\sigma}=\left\{\bigcup_{n\ge0}C_n|C_n\in \mathcal{C}\right\} \text{ and } \mathcal{C}_{\delta}=\left\{\bigcap_{n\ge0}C_n|C_n\in\mathcal{C}\right\}.
+$$
+\end{definition}
+\end{purple}
+
+\begin{green}
+    
+Observe that by taking $C_n=C\in\mathcal{C}$ for $n\ge 0$ it follows that $\mathcal{C}\subseteq\mathcal{C}_{\sigma}$ and $\mathcal{C}\subseteq \mathcal{C}_{\delta}$. Furthermore, if $\mathcal{C}$,$\mathcal{C}^\prime$ are two collections of subsets of $S$ and $\mathcal{C}\subseteq \mathcal{C}^\prime$, then $\mathcal{C}_{\sigma}\subseteq \mathcal{C}_{\sigma}^\prime$ and $\mathcal{C}_{\delta}\subseteq \mathcal{C}^\prime_{\delta}$.
+
+\end{green}
+
+
+\begin{yellow}
+\begin{theorem}
+
+For any collection of subsets $\mathcal{C}$ of a set $S$ we have $(\mathcal{C}_\sigma)_{\sigma}=\mathcal{C}_{\sigma}$ and $(\mathcal{C}_{\delta})_{\delta}=\mathcal{C}_\delta$.
+
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+We prove both statements separately.
+
+\noindent
+\textbf{Part 1: $(\mathcal{C}_\sigma)_\sigma = \mathcal{C}_\sigma$}
+
+\begin{enumerate}
+    \item[($\subseteq$)] Let $A \in (\mathcal{C}_\sigma)_\sigma$. Then there exists a countable family $\{A_n\}_{n\in\mathbb{N}} \subseteq \mathcal{C}_\sigma$ such that
+    $$
+    A = \bigcup_{n\in\mathbb{N}} A_n.
+    $$
+    For each $A_n$, there exists a countable family $\{C_{n,k}\}_{k\in\mathbb{N}} \subseteq \mathcal{C}$ such that
+    $$
+    A_n = \bigcup_{k\in\mathbb{N}} C_{n,k}.
+    $$
+    Therefore,
+    $$
+    A = \bigcup_{n\in\mathbb{N}} \bigcup_{k\in\mathbb{N}} C_{n,k} = \bigcup_{(n,k)\in\mathbb{N}\times\mathbb{N}} C_{n,k},
+    $$
+    which is a countable union of elements of $\mathcal{C}$. Hence $A \in \mathcal{C}_\sigma$.
+
+    \item[($\supseteq$)] For any $A \in \mathcal{C}_\sigma$, we can take the trivial union $A = \bigcup_{n\in\mathbb{N}} A_n$ where $A_1 = A$ and $A_n = \emptyset$ for $n \geq 2$. Thus $A \in (\mathcal{C}_\sigma)_\sigma$.
+\end{enumerate}
+
+\noindent
+\textbf{Part 2: $(\mathcal{C}_\delta)_\delta = \mathcal{C}_\delta$}
+
+\begin{enumerate}
+    \item[($\subseteq$)] Let $B \in (\mathcal{C}_\delta)_\delta$. Then there exists a countable family $\{B_n\}_{n\in\mathbb{N}} \subseteq \mathcal{C}_\delta$ such that
+    $$
+    B = \bigcap_{n\in\mathbb{N}} B_n.
+    $$
+    For each $B_n$, there exists a countable family $\{C_{n,k}\}_{k\in\mathbb{N}} \subseteq \mathcal{C}$ such that
+    $$
+    B_n = \bigcap_{k\in\mathbb{N}} C_{n,k}.
+    $$
+    Therefore,
+    $$
+    B = \bigcap_{n\in\mathbb{N}} \bigcap_{k\in\mathbb{N}} C_{n,k} = \bigcap_{(n,k)\in\mathbb{N}\times\mathbb{N}} C_{n,k},
+    $$
+    which is a countable intersection of elements of $\mathcal{C}$. Hence $B \in \mathcal{C}_\delta$.
+
+    \item[($\supseteq$)] For any $B \in \mathcal{C}_\delta$, we can take the trivial intersection $B = \bigcap_{n\in\mathbb{N}} B_n$ where $B_1 = B$ and $B_n = S$ for $n \geq 2$. Thus $B \in (\mathcal{C}_\delta)_\delta$.
+\end{enumerate}
+\end{proof}
+
+\begin{green}
+\textbf{Idempotence Principle}:
+
+Let $\mathcal{C}$ be any collection of sets, with $\sigma$ and $\delta$ operations defined as:
+$$
+\mathcal{C}_\sigma = \left\{ \bigcup_{n\in\mathbb{N}} C_n \mid C_n \in \mathcal{C} \right\}, \quad 
+\mathcal{C}_\delta = \left\{ \bigcap_{n\in\mathbb{N}} C_n \mid C_n \in \mathcal{C} \right\}
+$$
+
+The idempotence property holds because \textbf{Closure under countable operations}: A countable union of countable unions remains countable ($\aleph_0 + \aleph_0 = \aleph_0$)
+
+Thus, the idempotence of $\sigma$ and $\delta$ operations is fundamentally a consequence of countability.
+\end{green}
+
+The operation $\sigma$ and $\delta$ can be applied iteratively. We denote sequences of applications of these operations by subscripts adorning the affected collection. The order of application coincides with the order of these symbols in the subscript.
+
+\begin{green}
+    
+Observe that if$C=(C_0,C_1,\cdots)$ is a sequence of sets, then $\lim\sup C=\bigcap_{i=0}^\infty\bigcup_{j=i}^{\infty}C_j\in\mathcal{C}_{\sigma\delta}$ and $\lim\inf C=\bigcup_{i=0}^\infty\bigcap_{j=i}^{\infty}C_j\in\mathcal{C}_{\delta\sigma}$, where $\mathcal{C}$ is the collection of all sets $C_i$ for $i\in\mathbb{N}$.
+\end{green}
+
+\subsection{Closure and Interior Systems}
+
+\begin{purple}
+\begin{definition}
+    
+Let $S$ be a set. A closure system on $S$ is a collection $\mathcal{C}$ of subsets of $S$ such that $S\in\mathcal{C}$ and for any family $\{C_i\}_{i\in I}\subseteq \mathcal{C}$, we have $\bigcap_{i\in I}C_i\in\mathcal{C}$.
+\end{definition}
+\end{purple}
+
+\begin{yellow}
+\begin{theorem}
+
+The sets $\text{REFL}(S)$, $\text{STMM}(S)$, $\text{TRAN}(S)$ and $\text{EQUI}(S)$ are closure systems on $S$.
+\end{theorem}
+\end{yellow}
+
+\begin{purple}
+\begin{definition}
+
+A mapping $K:\mathcal{P}(S)\rightarrow\mathcal{P}(S)$ is a closure operator on a set $S$ if it satisfies the conditions:
+\begin{itemize}
+    \item $U\subseteq K(U)$(expansiveness)
+    \item $U\subseteq V\implies K(U)\subseteq K(V)$(monotonicity)
+    \item $K(K(U))=K(U)$(idempotency)
+\end{itemize}
+for $U,V\in\mathcal{P}(S)$.
+\end{definition}
+\end{purple}
+
+Obviously, $K(S)=S$.
+
+\begin{purple}
+\begin{definition}
+    Let $S$ be a set. A collection $\mathfrak{M}$ of subsets of $S$ is a \textbf{monotone class} if the following conditions are satisfied:
+    \begin{enumerate}
+        \item If $C = (C_n)$ is an increasing sequence of sets in $\mathfrak{M}$, then $\bigcup_{n \in \mathbb{N}} C_n \in \mathcal{M}$;
+        
+        \item If $D = (D_n)$ is a decreasing sequence of sets in $\mathfrak{M}$, then $\bigcap_{n \in \mathbb{N}} D_n \in \mathcal{M}$.
+    \end{enumerate}
+\end{definition}
+\end{purple}
+
+\begin{yellow}
+\begin{theorem}
+
+Let $K: \mathcal{P}(S) \to \mathcal{P}(S)$ be a closure operator. Define the family of sets 
+$$
+\mathcal{C}_K = \{H \in \mathcal{P}(S) \mid H = K(H)\}.
+$$ 
+Then, $\mathcal{C}_K$ is a closure system on $S$.
+
+\end{theorem}
+\end{yellow}
 
 \end{document}
 

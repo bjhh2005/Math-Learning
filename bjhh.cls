@@ -9,6 +9,7 @@
 
 % 加载所需包
 \RequirePackage{amsmath}
+\RequirePackage{amsthm}
 \RequirePackage{amssymb}
 \RequirePackage[strict]{changepage}
 \RequirePackage{fancyhdr}
@@ -19,7 +20,6 @@
 \RequirePackage{mathabx}
 \RequirePackage{newtxtext}
 \RequirePackage{subfiles}
-\RequirePackage{theorem}
 \RequirePackage[dvipsnames,svgnames]{xcolor}
 
 % 页面布局设置
@@ -87,7 +87,6 @@
     
     % 定理环境
     \newtheorem{definition}{Definition}[subsection]
-    \newtheorem{proof}{Proof}[subsection]
     \newtheorem{theorem}{Theorem}[subsection]
 }
 
@@ -125,10 +124,10 @@
     \end{titlepage}
 }
 
-% 页眉页脚设置
-\newcommand{\setupheaderfooter}{%
-    \pagestyle{fancy}
-    \fancyhf{} % 清除所有页眉页脚
-    \renewcommand{\headrulewidth}{0pt} % 去掉页眉下划线
-}
+% % 页眉页脚设置
+% \newcommand{\setupheaderfooter}{%
+%     \pagestyle{fancy}
+%     \fancyhf{} % 清除所有页眉页脚
+%     \renewcommand{\headrulewidth}{0pt} % 去掉页眉下划线
+% }
 
