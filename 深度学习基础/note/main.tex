@@ -1,0 +1,29 @@
+\documentclass{../../bjhh} % 使用自定义模板类
+% \usepackage{ctex}
+
+\setupnote
+
+\begin{document}
+
+\pagestyle{empty} % 标题页不使用页眉页脚
+
+\makemytitle
+    {The foundation of DL}
+    {I haven't thought of a title yet}
+    {Franz Hu} 
+
+\section*{What is the first}
+This is my second time to write notes all in English.
+
+
+\newpage
+\tableofcontents
+\newpage
+
+% 从空页码开始正式内容
+\pagestyle{fancy} % 启用页眉页脚
+\setcounter{page}{1}
+
+\subfile{chap/chap1.tex} % 子文件
+
+\end{document}

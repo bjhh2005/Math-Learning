@@ -1,0 +1,504 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\section{Mathematical Basics}
+\subsection{Information Theory}
+
+% 信息内容的度量将依赖于概率分布，我们找到一个相对于它担待哦的量来表达信息的内容。
+The quantification of information content is contingent upon the probability distribution. We seek a measure that expresses the information content in a manner that is inversely related to its probability.
+% 同时观测两个无关事件的信息增益应该是分别观察他们所获得的信息增益之和。即：
+Furthermore, the information gain from observing two independent events should equal the sum of the information gains obtained from observing each event individually. That is:
+$$
+h(x,y)=h(x) + h(y)
+$$
+% 而他们的概率则是独立的。即：
+Meanwhile, their joint probability is given by the product of their individual probabilities:
+$$
+p(x,y)=p(x)p(y)
+$$
+% 由此我们可以得出二者的关系为：
+From these premises, we can deduce that the relationship between information content and probability is expressed as:
+$$
+h(x)=-\log_2p(x)
+$$
+% 其中负号确保信息是非负的。
+The negative sign ensures the non-negativity of information.
+
+\begin{purple}
+\begin{definition}
+    
+% 因此一个传输过程的平均信息量，即关于$p(x)$取期望得到：
+Therefore, the average information content of a transmission process is obtained by taking the expectation with respect to $p(x)$:
+$$
+H[x]=-\sum_xp(x)\log_2p(x)
+$$
+% 这个量就称为随机变量$x$的熵。
+This quantity is referred to as the entropy of the random variable $x$.
+
+% 对于连续变量$x$，我们定义
+For continuous variable $x$, we define:
+$$
+H[x]=-\int p(x)\ln p(x)\,dx
+$$
+% 作为连续变量的微分熵。
+as the differential entropy of continuous variables.
+
+\end{definition}
+\end{purple}
+
+\begin{yellow}
+\begin{theorem}
+% 熵是传输随机变量状态所需比特数的下界。   
+Noiseless coding theorem: 
+Entropy serves as a lower bound on the number of bits required to transmit the state of a random variable.
+\end{theorem}
+\end{yellow}
+
+\begin{green}
+% 这和哈夫曼最短路径编码其实计算的是一样的东西。
+Indeed, this calculates the same fundamental concept as ​Huffman's minimum path encoding. Both entropy and Huffman coding address the theoretical limit and practical achievement of efficient information representation.
+\end{green}
+
+
+
+% 对于离散分布，最大熵的情况变量概率在可能状态之间均匀分布的情况。
+For discrete distributions, the maximum entropy configuration occurs when the variable's probabilities are uniformly distributed among all possible states.
+% 而对于连续型变量，我们进行以下分析：
+For continuous variables, we proceed with the following analysis:
+\begin{gather*}
+\int_{-\infty}^{\infty} p(x) \, dx = 1 \\
+\int_{-\infty}^{\infty} x p(x) \, dx = \mu\\
+\int_{-\infty}^{\infty}(x-\mu)^2p(x)\,dx=\sigma^2
+\end{gather*}
+
+% 我们可以用拉格朗日乘数法来计算带约束的最大值。
+We can use the method of Lagrange multipliers to compute the constrained maximum.
+$$
+\mathcal{L}(x)=-\int_{-\infty}^{\infty}p(x)\ln p(x)\, dx+\lambda_1(\int_{-\infty}^{\infty} p(x) \, dx-1)+\lambda_2(\int_{-\infty}^{\infty} x p(x) \, dx-\mu)+\lambda_3(\int_{-\infty}^{\infty}(x-\mu)^2p(x)\,dx-\sigma^2)
+$$
+
+\begin{align*}
+    \frac{\delta \mathcal{L}}{\delta \,p}&=\frac{\delta}{\delta\, p}[-p\ln p+\lambda_1p+\lambda_2xp+\lambda_3(x-\mu)^2p]\\
+    &=-\ln p-1+\lambda_1+\lambda_2x+\lambda_3(x-\mu)^2 = 0
+\end{align*}
+
+\begin{green}
+    
+\textbf{Key Rule:} For a functional $\mathcal{L} = \int F(p, x)  dx$, the variational derivative $\frac{\delta\mathcal{L}}{\delta p}$ equals the partial derivative of the integrand $F$ with respect to $p$ (i.e., $\frac{\partial F}{\partial p}$).
+
+\end{green}
+
+\begin{align*}
+\text{Let } \frac{\partial}{\partial p(x)} F(p) &= -\ln p(x) - 1 + \lambda_{1} + \lambda_{2} x + \lambda_{3}(x-\mu)^{2} = 0 \\
+\\
+p(x) &= e^{\left(-1 + \lambda_{1} + \lambda_{2} x + \lambda_{3}(x-\mu)^{2}\right)} \\
+      &= e^{-1 + \lambda_{1}} \cdot e^{\lambda_{2} x + \lambda_{3}(x-\mu)^{2}} = C e^{\lambda_{2} x + \lambda_{3}(x-\mu)^{2}} \\
+      &= C e^{\lambda_{3}\left(x^{2} - 2\left(\mu - \frac{\lambda_{2}}{2 \lambda_{3}}\right) x + \mu^{2}\right)} = C e^{\lambda_{3}\left(x - \mu + \frac{\lambda_{2}}{2\lambda_{3}}\right)^{2}}
+\end{align*}
+Since $p(x) > 0$, so $C > 0$.$p(x)$ is symmetric about $\mu - \frac{\lambda_{2}}{2\lambda_{3}}$, so $\mathbb{E}[p(x)] = \mu - \frac{\lambda_{2}}{2\lambda_{3}} = \mu$.
+It follows that:
+$$
+\lambda_{2} = 0
+$$
+The form thus becomes:
+$$
+p(x) = C e^{\lambda_{3}(x-\mu)^{2}}
+$$
+Finally, substituting in the constraint conditions gives the answer:
+$$
+p(x)=\frac{1}{\sqrt{2\pi}\sigma}\exp(-\frac{(x-\mu)^2}{2\sigma^2})
+$$
+\begin{green}
+    
+% 这里我们补充一些必要的泛函分析的知识。函数代表了数到数的映射，而泛函代表了函数到数的映射。
+Here we supplement some necessary knowledge of functional analysis. A \textbf{function} represents a mapping from numbers to numbers, while a \textbf{functional} represents a mapping from functions to numbers.
+
+For instance, consider the functional $J(y) = \int_{x_1}^{x_2} \sqrt{1 + (y_x)^2}  \, dx$. The goal is to find a suitable function $y(x)$ such that $J(y)$ attains its minimum.
+
+Generally, we define a functional concerned with $y$ (which is twice differentiable on the interval $[a, b]$):
+$$
+J(y) = \int_{a}^{b} F(x, y, y_x)  \, dx
+$$
+Given that $y(a)$ and $y(b)$ are known, and that $F$ is twice differentiable with respect to all its arguments, what condition must the function $y(x)$ satisfy in this general case for the functional to attain a minimum value?
+
+For the general case described above, when the functional $J(y)$ attains an extremum, the function $y(x)$ must satisfy the Euler-Lagrange equation:
+
+\end{green}
+\begin{yellow}
+\begin{theorem}
+    
+\textbf{Euler-Lagrange Equation:}
+Let $J(y)$ be a functional defined by
+$$
+J(y) = \int_{a}^{b} F(x, y, y_x)  dx
+$$
+where $F$ is twice continuously differentiable in all its arguments. If $y = u(x)$ yields an extremum of $J(y)$ among all functions satisfying the boundary conditions $y(a) = y_0$ and $y(b) = y_1$, then $u(x)$ must satisfy the following necessary condition:
+\begin{equation*}
+\frac{\partial F}{\partial y} - \frac{d}{dx}\left(\frac{\partial F}{\partial y_x}\right) = 0
+\end{equation*}
+
+\end{theorem}
+\end{yellow}
+\begin{proof}
+    
+We assume that the function yielding an extremum for the functional $J(y)$ is $y = u(x)$. On the interval $[x_1 = a, x_2 = b]$, we define a family of functions:
+$$
+y(x) = u(x) + \epsilon \eta(x)
+$$
+where $\epsilon$ is a real parameter and $\eta(x)$ is defined as the difference between any other function $y(x)$ connecting points $P_1$ and $P_2$ and the function $u(x)$. Consequently, $\eta(x)$ must satisfy the boundary conditions $\eta(a) = \eta(b) = 0$, ensuring $y(x)$ also satisfies these conditions and represents an admissible path. For any fixed $\eta(x)$, the functional $J(y) = J(u + \epsilon\eta)$ becomes a function of the parameter $\epsilon$ only, denoted $J(\epsilon)$. Since $y(x) = u(x)$ when $\epsilon=0$ (where $J(y)$ attains its extremum), it follows that:
+$$
+\frac{dJ(\epsilon)}{d\epsilon} \bigg|_{\epsilon=0} = 0
+$$
+
+To satisfy this condition, we first compute $\frac{dJ(\epsilon)}{d\epsilon}$ for an arbitrary but fixed $\eta(x)$:
+\begin{align*}
+\frac{dJ(\epsilon)}{d\epsilon} &= \frac{d}{d\epsilon} \int_{a}^{b} F(x, y(x), y_x(x))  dx \\
+&= \int_{a}^{b} \frac{\partial F(x, y(x), y_x(x))}{\partial \epsilon}  dx \\
+&= \int_{a}^{b} \left( \frac{\partial F}{\partial y} \frac{\partial y}{\partial \epsilon} + \frac{\partial F}{\partial y_x} \frac{\partial y_x}{\partial \epsilon} \right) dx\\
+&= \int_{a}^{b} \frac{\partial F}{\partial y} \eta(x)  dx + \int_{a}^{b} \frac{\partial F}{\partial y_x} \eta'(x)  dx \\
+&= \int_{a}^{b} \frac{\partial F}{\partial y} \eta(x)  dx + \int_{a}^{b} \frac{\partial F}{\partial y_x}  d\eta(x) \\
+&= \int_{a}^{b} \frac{\partial F}{\partial y} \eta(x)  dx + \left[ \eta(x) \frac{\partial F}{\partial y_x} \right]_{a}^{b} - \int_{a}^{b} \frac{d}{dx} \left( \frac{\partial F}{\partial y_x} \right) \eta(x)  dx \quad \text{(Integration by Parts)} \\
+&= \int_{a}^{b} \left[ \frac{\partial F}{\partial y} - \frac{d}{dx} \left( \frac{\partial F}{\partial y_x} \right) \right] \eta(x)  dx \quad (\text{since } \eta(a)=\eta(b)=0)
+\end{align*}
+
+Evaluating this derivative at $\epsilon=0$ (where $y = u$ and $y_x = u_x$) yields:
+$$
+\frac{dJ(\epsilon)}{d\epsilon} \bigg|_{\epsilon=0} = \int_{a}^{b} \left[ \frac{\partial F}{\partial u} - \frac{d}{dx} \left( \frac{\partial F}{\partial u_x} \right) \right] \eta(x)  dx = 0
+$$
+Given that $\eta(x)$ is arbitrary and the expression $\frac{\partial F}{\partial u} - \frac{d}{dx} \left( \frac{\partial F}{\partial u_x} \right)$ is a fixed function for given $F$, the integral can only be zero for all $\eta(x)$ if:
+$$
+\frac{\partial F}{\partial u} - \frac{d}{dx} \left( \frac{\partial F}{\partial u_x} \right) = 0
+$$
+This completes the proof. The function $u(x)$ that extremizes the functional $J(y)$ must satisfy this Euler-Lagrange equation.
+
+\end{proof}
+Therefore, the distribution that maximizes the differential entropy is the \textbf{Gaussian distribution}. If we compute the differential entropy of the Gaussian distribution, we obtain:
+
+$$
+H[x]=\frac{1}{2}(1+\ln(2\pi\sigma^2))
+$$
+It is noteworthy that, unlike discrete entropy, differential entropy can be negative.
+$H(x)<0$, when $\sigma^2<\frac{1}{2\pi e}$.
+
+To describe the average additional information required to encode the values of $x$, we define the \textbf{relative entropy}, also called  Kullback and Leibler divergence:
+$$
+\text{KL}(p\parallel q)=-\int p(x)\ln q(x)d\,x-(-\int p(x)\ln p(x)d\,x)=-\int p(x)\ln\frac{q(x)}{p(x)}d\,x=-\mathbb{E}_p[\ln\frac{q(x)}{p(x)}]
+$$
+\begin{yellow}
+\begin{theorem}
+\textbf{Jensen's inequality}
+
+For any set of points $\{x_i\}$, the convex function $f(x)$ must satisfy:
+$$
+f(\sum_{i=1}^{M}\lambda_ix_i)\leqslant\sum_{i=1}^{M}\lambda_if(x_i)
+$$
+where $\lambda_i\geqslant0$ and $\sum_{i=1}^{M}\lambda_i=1$.
+\end{theorem}
+\end{yellow}
+$$
+\text{KL}(p\parallel q)=-\int p(x)\ln\frac{q(x)}{p(x)}d\,x\geqslant-\ln\int q(x)d\, x=0
+$$
+
+\begin{yellow}
+\begin{theorem}
+
+Consider two variables $x$ and $y$ with joint distribution $p(x,y)$. The differential entropy of this pair of variables satisfies:
+\begin{equation*}
+H[x,y] \leq H[x] + H[y]
+\end{equation*}
+
+
+\end{theorem}
+\end{yellow}
+\begin{proof}
+We prove this inequality using the non-negativity property of the Kullback-Leibler (KL) divergence. Consider the KL divergence between the joint distribution $p(x,y)$ and the product of marginal distributions $p(x)p(y)$:
+
+\begin{align*}
+0 &\leq \text{KL}(p(x,y) \| p(x)p(y)) \\
+&= \iint p(x,y) \ln \left( \frac{p(x,y)}{p(x)p(y)} \right) dxdy \\
+&= \iint p(x,y) \ln p(x,y) dxdy - \iint p(x,y) \ln [p(x)p(y)] dxdy \\
+&= \iint p(x,y) \ln p(x,y) dxdy - \iint p(x,y) [\ln p(x) + \ln p(y)] dxdy \\
+&= \iint p(x,y) \ln p(x,y) dxdy - \iint p(x,y) \ln p(x) dxdy - \iint p(x,y) \ln p(y) dxdy
+\end{align*}
+
+Now we recognize that these integrals correspond to differential entropy terms:
+\begin{align*}
+\iint p(x,y) \ln p(x,y) dxdy &= -H[x,y] \\
+\iint p(x,y) \ln p(x) dxdy &= \int \ln p(x) \left[ \int p(x,y) dy \right] dx = \int p(x) \ln p(x) dx = -H[x] \\
+\iint p(x,y) \ln p(y) dxdy &= \int \ln p(y) \left[ \int p(x,y) dx \right] dy = \int p(y) \ln p(y) dy = -H[y]
+\end{align*}
+
+Substituting these expressions back into the inequality:
+\begin{align*}
+0 &\leq -H[x,y] - (-H[x]) - (-H[y]) \\
+0 &\leq -H[x,y] + H[x] + H[y]
+\end{align*}
+
+Rearranging terms gives the desired result:
+\begin{equation*}
+H[x,y] \leq H[x] + H[y]
+\end{equation*}
+
+Equality holds if and only if $p(x,y) = p(x)p(y)$ almost everywhere, which occurs when $x$ and $y$ are statistically independent.
+\end{proof}
+    
+Suppose the data is generated from an unknown distribution $p(x)$ that we wish to model. We can attempt to approximate this distribution using a parametric distribution $q(x \mid \boldsymbol{\theta})$ controlled by a set of adjustable parameters $\boldsymbol{\theta}$. One method to determine $\boldsymbol{\theta}$ is to minimize the Kullback-Leibler divergence between $p(x)$ and $q(x \mid \boldsymbol{\theta})$. However, since we do not know $p(x)$, this cannot be done directly. Nevertheless, assuming we have observed a finite set of training points---$x_n$ generated from $p(x)$ for $n=1, \ldots, N$---we can approximate the expectation with respect to $p(x)$ via a finite sum over these training points:
+
+\begin{equation*}
+\mathrm{KL}(p \| q) \approx \frac{1}{N} \sum_{n=1}^{N}\left(-\ln q\left(x_{n} \mid \boldsymbol{\theta}\right)+\ln p\left(x_{n}\right)\right)
+\end{equation*}
+The second term on the right-hand side of the equation is independent of $\boldsymbol{\theta}$. The first term is the \textbf{negative log-likelihood function} of the distribution $q(x \mid \boldsymbol{\theta})$ evaluated using the training set. Therefore, it can be seen that minimizing this Kullback-Leibler divergence is equivalent to maximizing the log-likelihood function.
+
+\begin{purple}
+\begin{definition}
+    
+Suppose $x$ is given, the average additional information to know $y$ is:
+$$
+H[y|x]=-\iint p(y,x)\ln p(y|x)d\,yd\,x
+$$
+as the conditional entropy of $y$ given $x$.
+\end{definition}
+\end{purple}
+
+When two variables $x$ and $y$ are independent, their joint distribution can be factorized into the product of their marginal distributions, i.e., $p(x,y) = p(x)p(y)$. If these two variables are not independent, one can assess how ``close'' they are to independence by considering the Kullback-Leibler divergence between the joint distribution and the product of the marginal distributions, which is given by:
+
+\begin{purple}
+\begin{definition}
+
+
+
+\begin{equation*}
+I[x,y] \equiv \mathrm{KL}(p(x,y)\|p(x)p(y)) = -\iint p(x,y) \ln \left( \frac{p(x)p(y)}{p(x,y)} \right) dx\,dy
+\end{equation*}
+$I[x,y]$ is called the \textbf{mutual information} between variables $x$ and $y$. From the properties of the Kullback-Leibler divergence, we see that $I[x,y] \geq 0$, with equality holding if and only if $x$ and $y$ are independent. Using the sum and product rules of probability, we can see that the mutual information is related to the conditional entropy.
+
+\end{definition}
+\end{purple}
+
+\begin{equation*}
+I[x,y] = H[x] - H[x|y] = H[y] - H[y|x]
+\tag{2.110}
+\end{equation*}
+
+Therefore, the mutual information represents the reduction in uncertainty about $x$ due to being informed of the value of $y$ (or vice versa). From a Bayesian perspective, $p(x)$ can be viewed as the prior distribution of $x$, and $p(x|y)$ as the posterior distribution after observing new data $y$. In summary, the mutual information represents the reduction in uncertainty about $x$ resulting from the new observation $y$.
+
+The Bayesian approach to parameter estimation incorporates prior knowledge through the \textbf{maximum a posteriori} (MAP) framework. We express our belief about the parameters $\mathbf{w}$ before observing the data by specifying a \textbf{prior distribution} $p(\mathbf{w})$. A common and convenient choice is the Gaussian prior, which encodes a preference for smaller parameter values:
+
+\begin{equation*}
+w_j \sim \mathcal{N}(0, \lambda^{-1}), \quad \text{for all } j.
+\end{equation*}
+
+This distributional assumption reflects the belief that the model weights should not be too large, with the hyperparameter $\lambda$ controlling the strength of this belief.
+
+The core objective is to find the parameter values $\mathbf{w}$ that maximize the \textbf{posterior probability} $p(\mathbf{w} \mid X, Y)$. According to Bayes' theorem, the posterior is proportional to the product of the likelihood and the prior:
+
+\begin{equation*}
+p(\mathbf{w} \mid X, Y) \propto p(Y \mid X, \mathbf{w}) \, p(\mathbf{w}).
+\end{equation*}
+
+Maximizing the posterior probability is equivalent to minimizing its negative logarithm:
+
+\begin{equation*}
+-\ln p(\mathbf{w} \mid X, Y) = -\ln p(Y \mid X, \mathbf{w}) - \ln p(\mathbf{w}) + \text{constant}.
+\end{equation*}
+
+Substituting the Gaussian likelihood for the regression model, $p(Y \mid X, \mathbf{w}) = \prod_{i=1}^N \mathcal{N}(y_i \mid \mathbf{w}^T \mathbf{x}_i, \sigma^2)$, and the Gaussian prior, $p(\mathbf{w}) = \prod_{j=1}^D \mathcal{N}(w_j \mid 0, \lambda^{-1})$, yields the following expression:
+
+\begin{equation*}
+-\ln p(\mathbf{w} \mid X, Y) = \frac{1}{2\sigma^2} \sum_{i=1}^{N} \left(y_i - \mathbf{w}^T \mathbf{x}_i \right)^2 + \frac{\lambda}{2} \sum_{j=1}^{D} w_j^2 + \text{constant}.
+\end{equation*}
+
+The right-hand side of this equation is precisely the standard \textbf{regularized loss function} used in machine learning, composed of a mean squared error loss and an L2 regularization term:
+
+\begin{equation*}
+J(\mathbf{w}) = \frac{1}{2} \sum_{i=1}^{N} \left(y_i - \mathbf{w}^T \mathbf{x}_i \right)^2 + \frac{\lambda}{2} \sum_{j=1}^{D} w_j^2.
+\end{equation*}
+
+From this Bayesian perspective, the regularization term $\frac{\lambda}{2} \sum_j w_j^2$ is not an ad-hoc penalty but arises naturally from the negative log of the Gaussian prior. It penalizes large weights, thereby encouraging a simpler, smoother model that is less prone to overfitting.
+
+\subsection{Probability Theory}
+
+\noindent The \textbf{convolution formula} is a fundamental result in probability theory that provides the probability density function (PDF) for the sum of two independent continuous random variables.
+
+\begin{yellow}
+\begin{theorem}
+    
+Let $X$ and $Y$ be two independent continuous random variables with probability density functions $f_X(x)$ and $f_Y(y)$, respectively. Then the probability density function of $Z = X + Y$ is given by the convolution of $f_X$ and $f_Y$:
+
+\begin{equation*}
+f_Z(z) = (f_X * f_Y)(z) = \int_{-\infty}^{\infty} f_X(z - y) f_Y(y)  dy
+\end{equation*}
+An equivalent form, obtained by the substitution $x = z - y$, is:
+
+\begin{equation*}
+f_Z(z) = \int_{-\infty}^{\infty} f_X(x) f_Y(z - x)  dx
+\end{equation*}
+
+
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+    
+\begin{align*}
+F_Z(z) &= P(Z \leq z) = P(X + Y \leq z)\\
+&= \iint_{x+y \leq z} f_X(x) f_Y(y)  dx  dy\\
+&= \int_{-\infty}^{\infty} \left[ \int_{-\infty}^{z-y} f_X(x)  dx \right] f_Y(y)  dy\\
+&= \int_{-\infty}^{\infty} F_X(z - y) f_Y(y)  dy
+\end{align*}
+
+The PDF of $Z$ is the derivative of its CDF. Assuming the functions are sufficiently smooth (a condition validated by the Leibniz integral rule), we can differentiate under the integral sign:
+
+\begin{align*}
+f_Z(z) &= \frac{d}{dz} F_Z(z) = \frac{d}{dz} \left[ \int_{-\infty}^{\infty} F_X(z - y) f_Y(y)  dy \right] \\
+        &= \int_{-\infty}^{\infty} \frac{d}{dz} \left[ F_X(z - y) \right] f_Y(y)  dy
+\end{align*}
+
+By the chain rule, $\frac{d}{dz} F_X(z - y) = F'_X(z - y) \cdot \frac{d}{dz}(z - y) = f_X(z - y) \cdot 1$. Substituting this yields the final result:
+
+\begin{equation*}
+f_Z(z) = \int_{-\infty}^{\infty} f_X(z - y) f_Y(y)  dy
+\end{equation*}
+\end{proof}
+
+\begin{yellow}
+\begin{theorem}
+
+\textbf{Leibniz Integral Rule}
+
+Let $I(z) = \int_{a(z)}^{b(z)} F(x, z)  dx$, where the functions $a(z)$ and $b(z)$ are \textbf{differentiable} with respect to $z$, and the integrand $F(x, z)$ together with its \textbf{partial derivative} $\frac{\partial F}{\partial z}(x, z)$ are \textbf{continuous} functions over the region of integration. Under these conditions, the derivative of the integral is given by:
+$$
+I(z) = \int_{a(z)}^{b(z)} F(x, z)  dx
+$$
+where the parameter $z$ appears in both the integration limits and the integrand. The derivative of this integral with respect to $z$ is given by:
+
+\begin{equation*}
+\frac{d}{dz} I(z) = \int_{a(z)}^{b(z)} \frac{\partial F}{\partial z}(x, z)  dx + F(b(z), z) \cdot \frac{db}{dz} - F(a(z), z) \cdot \frac{da}{dz}
+\end{equation*}
+
+\end{theorem}
+\end{yellow}
+
+\begin{yellow}
+    
+\begin{theorem}
+Let $X$ and $Y$ be random variables with joint distribution $p(x,y)$.
+\begin{enumerate}
+    \item The law of total expectation states:
+    \begin{equation*}
+    \mathbb{E}[X] = \mathbb{E}_{Y}[\mathbb{E}_{X}[X|Y]]
+    \end{equation*}
+    where $\mathbb{E}_{X}[X|Y]$ is the expectation of $X$ under the conditional distribution $p(x|y)$.
+    
+    \item The law of total variance states:
+    \begin{equation*}
+    \operatorname{var}[X] = \mathbb{E}_{Y}[\operatorname{var}_{X}[X|Y]] + \operatorname{var}_{Y}[\mathbb{E}_{X}[X|Y]]
+    \end{equation*}
+    where $\operatorname{var}_{X}[X|Y]$ is the conditional variance of $X$ given $Y$.
+\end{enumerate}
+\end{theorem}
+
+\end{yellow}
+
+\begin{proof}
+We begin with the definition of expectation and express it in terms of the joint distribution:
+\begin{align*}
+\mathbb{E}[X] &= \int_{-\infty}^{\infty} x p(x) dx \\
+&= \int_{-\infty}^{\infty} x \left[ \int_{-\infty}^{\infty} p(x,y) dy \right] dx \quad \text{(by the law of total probability)} \\
+&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x p(x,y) dx dy
+\end{align*}
+
+The conditional expectation of $X$ given $Y=y$ is defined as:
+\begin{equation*}
+\mathbb{E}_{X}[X|Y=y] = \int_{-\infty}^{\infty} x p(x|y) dx = \frac{\int_{-\infty}^{\infty} x p(x,y) dx}{p(y)}
+\end{equation*}
+where $p(y) = \int_{-\infty}^{\infty} p(x,y) dx$ is the marginal distribution of $Y$.
+
+Now we take the expectation of this conditional expectation over $Y$:
+\begin{align*}
+\mathbb{E}_{Y}[\mathbb{E}_{X}[X|Y]] &= \int_{-\infty}^{\infty} \mathbb{E}_{X}[X|Y=y] p(y) dy \\
+&= \int_{-\infty}^{\infty} \left[ \int_{-\infty}^{\infty} x p(x|y) dx \right] p(y) dy \\
+&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x \frac{p(x,y)}{p(y)} p(y) dx dy \quad \text{(since } p(x|y) = \frac{p(x,y)}{p(y)} \text{)} \\
+&= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} x p(x,y) dx dy \\
+&= \mathbb{E}[X]
+\end{align*}
+This completes the proof of the law of total expectation.
+
+We begin with the definition of variance: $\operatorname{var}[X] = \mathbb{E}[X^2] - (\mathbb{E}[X])^2$.
+
+We will prove the result by showing that the right-hand side equals this expression.
+
+First, consider the term $\mathbb{E}_{Y}[\operatorname{var}_{X}[X|Y]]$:
+\begin{align*}
+\mathbb{E}_{Y}[\operatorname{var}_{X}[X|Y]] &= \int_{-\infty}^{\infty} \operatorname{var}_{X}[X|Y=y] p(y) dy \\
+&= \int_{-\infty}^{\infty} \left[ \mathbb{E}_{X}[X^2|Y=y] - (\mathbb{E}_{X}[X|Y=y])^2 \right] p(y) dy \\
+&= \int_{-\infty}^{\infty} \mathbb{E}_{X}[X^2|Y=y] p(y) dy - \int_{-\infty}^{\infty} (\mathbb{E}_{X}[X|Y=y])^2 p(y) dy \\
+&= \mathbb{E}[X^2] - \mathbb{E}_{Y}[(\mathbb{E}_{X}[X|Y])^2]
+\end{align*}
+
+Next, consider the term $\operatorname{var}_{Y}[\mathbb{E}_{X}[X|Y]]$:
+\begin{align*}
+\operatorname{var}_{Y}[\mathbb{E}_{X}[X|Y]] &= \mathbb{E}_{Y}[(\mathbb{E}_{X}[X|Y])^2] - (\mathbb{E}_{Y}[\mathbb{E}_{X}[X|Y]])^2 \\
+&= \mathbb{E}_{Y}[(\mathbb{E}_{X}[X|Y])^2] - (\mathbb{E}[X])^2 \quad \text{(by the law of total expectation)}
+\end{align*}
+
+Now we add the two terms:
+\begin{align*}
+&\mathbb{E}_{Y}[\operatorname{var}_{X}[X|Y]] + \operatorname{var}_{Y}[\mathbb{E}_{X}[X|Y]] \\
+&= \left[ \mathbb{E}[X^2] - \mathbb{E}_{Y}[(\mathbb{E}_{X}[X|Y])^2] \right] + \left[ \mathbb{E}_{Y}[(\mathbb{E}_{X}[X|Y])^2] - (\mathbb{E}[X])^2 \right] \\
+&= \mathbb{E}[X^2] - (\mathbb{E}[X])^2 \\
+&= \operatorname{var}[X]
+\end{align*}
+\end{proof}
+
+\begin{yellow}
+\begin{theorem}
+    
+Let $\mathbf{x}$ be a continuous random vector with probability density function $p(\mathbf{x})$ and differential entropy $H[\mathbf{x}]$. Suppose we apply a nonsingular linear transformation to obtain a new random vector $\mathbf{y} = \mathbf{A}\mathbf{x}$, where $\mathbf{A}$ is an invertible matrix with nonzero determinant. Then the differential entropy of $\mathbf{y}$ is given by:
+
+\begin{equation*}
+H[\mathbf{y}] = H[\mathbf{x}] + \ln |\det(\mathbf{A})|
+\end{equation*}
+where $\det(\mathbf{A})$ denotes the determinant of matrix $\mathbf{A}$.
+
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+    
+Let $p_{\mathbf{x}}(\mathbf{x})$ be the probability density function of $\mathbf{x}$. For the linear transformation $\mathbf{y} = \mathbf{A}\mathbf{x}$, the inverse transformation is $\mathbf{x} = \mathbf{A}^{-1}\mathbf{y}$.
+
+The Jacobian matrix of this transformation is:
+$$
+\mathbf{J} = \frac{\partial \mathbf{y}}{\partial \mathbf{x}} = \mathbf{A}
+$$
+and the absolute value of its determinant is $|\det(\mathbf{J})| = |\det(\mathbf{A})|$.
+
+By the change of variables formula, the probability density function of $\mathbf{y}$ is:
+\begin{equation}
+p_{\mathbf{y}}(\mathbf{y}) = p_{\mathbf{x}}(\mathbf{A}^{-1}\mathbf{y}) \cdot |\det(\mathbf{A})|^{-1}
+\end{equation}
+
+Now we compute the differential entropy of $\mathbf{y}$:
+\begin{align*}
+H[\mathbf{y}] &= -\int p_{\mathbf{y}}(\mathbf{y}) \ln p_{\mathbf{y}}(\mathbf{y})  d\mathbf{y} \\
+&= -\int \left[ p_{\mathbf{x}}(\mathbf{A}^{-1}\mathbf{y}) \cdot |\det(\mathbf{A})|^{-1} \right] \ln \left[ p_{\mathbf{x}}(\mathbf{A}^{-1}\mathbf{y}) \cdot |\det(\mathbf{A})|^{-1} \right]  d\mathbf{y}
+\end{align*}
+
+Make the substitution $\mathbf{x} = \mathbf{A}^{-1}\mathbf{y}$, which implies $d\mathbf{y} = |\det(\mathbf{A})|  d\mathbf{x}$:
+\begin{align*}
+H[\mathbf{y}] &= -\int p_{\mathbf{x}}(\mathbf{x}) \cdot |\det(\mathbf{A})|^{-1} \ln \left[ p_{\mathbf{x}}(\mathbf{x}) \cdot |\det(\mathbf{A})|^{-1} \right] |\det(\mathbf{A})|  d\mathbf{x} \\
+&= -\int p_{\mathbf{x}}(\mathbf{x}) \ln \left[ p_{\mathbf{x}}(\mathbf{x}) \cdot |\det(\mathbf{A})|^{-1} \right]  d\mathbf{x}
+\end{align*}
+
+Using the logarithmic identity $\ln(ab) = \ln a + \ln b$:
+\begin{align*}
+H[\mathbf{y}] &= -\int p_{\mathbf{x}}(\mathbf{x}) \left[ \ln p_{\mathbf{x}}(\mathbf{x}) + \ln |\det(\mathbf{A})|^{-1} \right]  d\mathbf{x} \\
+&= -\int p_{\mathbf{x}}(\mathbf{x}) \ln p_{\mathbf{x}}(\mathbf{x})  d\mathbf{x} - \int p_{\mathbf{x}}(\mathbf{x}) \ln |\det(\mathbf{A})|^{-1}  d\mathbf{x} \\
+&= H[\mathbf{x}] + \ln |\det(\mathbf{A})| \int p_{\mathbf{x}}(\mathbf{x})  d\mathbf{x} \quad \text{(since $\ln |\det(\mathbf{A})|^{-1} = -\ln |\det(\mathbf{A})|$)} \\
+&= H[\mathbf{x}] + \ln |\det(\mathbf{A})| \quad \text{(as $\int p_{\mathbf{x}}(\mathbf{x})  d\mathbf{x} = 1$)}
+\end{align*}
+\end{proof}
+
+
+\end{document}
