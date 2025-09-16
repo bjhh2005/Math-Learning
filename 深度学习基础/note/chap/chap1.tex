@@ -180,10 +180,18 @@ $$
 It is noteworthy that, unlike discrete entropy, differential entropy can be negative.
 $H(x)<0$, when $\sigma^2<\frac{1}{2\pi e}$.
 
+\begin{purple}
+\begin{definition}
+    
 To describe the average additional information required to encode the values of $x$, we define the \textbf{relative entropy}, also called  Kullback and Leibler divergence:
 $$
 \text{KL}(p\parallel q)=-\int p(x)\ln q(x)d\,x-(-\int p(x)\ln p(x)d\,x)=-\int p(x)\ln\frac{q(x)}{p(x)}d\,x=-\mathbb{E}_p[\ln\frac{q(x)}{p(x)}]
 $$
+    
+\end{definition}
+\end{purple}
+
+
 \begin{yellow}
 \begin{theorem}
 \textbf{Jensen's inequality}
@@ -277,7 +285,6 @@ $I[x,y]$ is called the \textbf{mutual information} between variables $x$ and $y$
 
 \begin{equation*}
 I[x,y] = H[x] - H[x|y] = H[y] - H[y|x]
-\tag{2.110}
 \end{equation*}
 
 Therefore, the mutual information represents the reduction in uncertainty about $x$ due to being informed of the value of $y$ (or vice versa). From a Bayesian perspective, $p(x)$ can be viewed as the prior distribution of $x$, and $p(x|y)$ as the posterior distribution after observing new data $y$. In summary, the mutual information represents the reduction in uncertainty about $x$ resulting from the new observation $y$.
@@ -499,6 +506,312 @@ H[\mathbf{y}] &= -\int p_{\mathbf{x}}(\mathbf{x}) \left[ \ln p_{\mathbf{x}}(\mat
 &= H[\mathbf{x}] + \ln |\det(\mathbf{A})| \quad \text{(as $\int p_{\mathbf{x}}(\mathbf{x})  d\mathbf{x} = 1$)}
 \end{align*}
 \end{proof}
+
+\subsection{STANDARD DISTRIBUTION}
+\subsubsection{Multivariate Gaussian distribution}
+\begin{purple}
+\begin{definition}
+
+$$
+\mathcal{N}(x|\mu,\Sigma)=\frac{1}{(2\pi)^{\frac{D}{2}}}\frac{1}{|\Sigma|^{\frac{1}{2}}}\exp\left\{-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)\right\}
+$$
+where $\mu$ is a $D$-dimensional mean vector, $\Sigma$ is a $D \times D$ covariance matrix, and $\det(\Sigma)$ denotes the determinant of $\Sigma$.
+
+\end{definition}
+\end{purple}
+
+\begin{purple}
+\begin{definition}
+    
+$$
+\Delta^2=(x-\mu)^T\Sigma^{-1}(x-\mu)
+$$
+The quantity $\Delta$ is called the \textbf{Mahalanobis distance} from $\boldsymbol{\mu}$ to $\boldsymbol{x}$. It reduces to the \textbf{Euclidean distance} when $\boldsymbol{\Sigma}$ is the identity matrix. The Gaussian distribution is constant on surfaces of constant value of this quadratic form in $\boldsymbol{x}$-space.
+
+\end{definition}
+\end{purple}
+
+\begin{yellow}
+\begin{theorem}[Symmetry of the Precision and Covariance Matrices in the Multivariate Gaussian Distribution]
+Consider the multivariate Gaussian distribution:
+\begin{equation*}
+p(\mathbf{x}) = \frac{1}{(2\pi)^{D/2}} \frac{1}{|\boldsymbol{\Sigma}|^{1/2}} \exp \left\{ -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right\}
+\end{equation*}
+The precision matrix (inverse covariance matrix), $\boldsymbol{\Lambda} \equiv \boldsymbol{\Sigma}^{-1}$, can be decomposed into the sum of a symmetric matrix and an antisymmetric matrix. The antisymmetric component does not contribute to the exponent of the distribution. Consequently, the precision matrix can be assumed, without loss of generality, to be symmetric. Furthermore, since the inverse of a symmetric matrix is symmetric, the covariance matrix $\boldsymbol{\Sigma}$ can likewise be assumed, without loss of generality, to be symmetric.
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+    
+Let the precision matrix be denoted by $\boldsymbol{\Lambda} = \boldsymbol{\Sigma}^{-1}$. Any square matrix can be uniquely decomposed into a symmetric part and an antisymmetric part:
+\begin{align*}
+\boldsymbol{\Lambda} &= \boldsymbol{\Lambda}_S + \boldsymbol{\Lambda}_A, \quad \text{where} \\
+\boldsymbol{\Lambda}_S &= \frac{\boldsymbol{\Lambda} + \boldsymbol{\Lambda}^\top}{2} \quad \text{(symmetric: $\boldsymbol{\Lambda}_S^\top = \boldsymbol{\Lambda}_S$)}, \\
+\boldsymbol{\Lambda}_A &= \frac{\boldsymbol{\Lambda} - \boldsymbol{\Lambda}^\top}{2} \quad \text{(antisymmetric: $\boldsymbol{\Lambda}_A^\top = -\boldsymbol{\Lambda}_A$)}.
+\end{align*}
+
+The key term in the exponent of the Gaussian distribution is the quadratic form:
+\begin{equation*}
+\Delta^2 = (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda} (\mathbf{x} - \boldsymbol{\mu})
+\end{equation*}
+Substituting the decomposition into this form yields:
+\begin{align*}
+\Delta^2 &= (\mathbf{x} - \boldsymbol{\mu})^\top (\boldsymbol{\Lambda}_S + \boldsymbol{\Lambda}_A) (\mathbf{x} - \boldsymbol{\mu}) \\
+&= (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_S (\mathbf{x} - \boldsymbol{\mu}) + (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_A (\mathbf{x} - \boldsymbol{\mu})
+\end{align*}
+Let $Q = (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_A (\mathbf{x} - \boldsymbol{\mu})$. Since $Q$ is a scalar, $Q^\top = Q$. We can also express the transpose of $Q$ using the property of matrix transposition:
+\begin{align*}
+Q^\top &= \left( (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_A (\mathbf{x} - \boldsymbol{\mu}) \right)^\top \\
+&= (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_A^\top (\mathbf{x} - \boldsymbol{\mu}) \\
+&= (\mathbf{x} - \boldsymbol{\mu})^\top (-\boldsymbol{\Lambda}_A) (\mathbf{x} - \boldsymbol{\mu}) \quad \text{(due to the antisymmetry of $\boldsymbol{\Lambda}_A$)} \\
+&= - (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_A (\mathbf{x} - \boldsymbol{\mu}) \\
+&= -Q
+\end{align*}
+Therefore, we have $Q = -Q$, which implies $Q = 0$. Thus,
+\begin{equation*}
+(\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_A (\mathbf{x} - \boldsymbol{\mu}) = 0
+\end{equation*}
+and the quadratic form depends solely on the symmetric component:
+\begin{equation*}
+\Delta^2 = (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Lambda}_S (\mathbf{x} - \boldsymbol{\mu})
+\end{equation*}
+This result shows that the probability density $p(\mathbf{x})$ depends only on $\boldsymbol{\Lambda}_S$. Therefore, for the purpose of defining the distribution, one can always use the symmetric precision matrix $\boldsymbol{\Lambda}_S$ without loss of generality.
+
+Finally, since $\boldsymbol{\Lambda}_S$ is symmetric and $\boldsymbol{\Sigma} = \boldsymbol{\Lambda}_S^{-1}$, it follows from a standard result in linear algebra that the covariance matrix $\boldsymbol{\Sigma}$ is also symmetric. Thus, $\boldsymbol{\Sigma}$ can likewise be assumed to be symmetric without loss of generality.
+
+\end{proof}
+
+\begin{yellow}
+\begin{theorem}[Properties of Eigenvalues and Eigenvectors of a Real Symmetric Matrix]
+\label{thm:real_symmetric_matrix_properties}
+Let $\boldsymbol{\Sigma}$ be a $D \times D$ real symmetric matrix ($\boldsymbol{\Sigma}^\top = \boldsymbol{\Sigma}$ and $\boldsymbol{\Sigma} \in \mathbb{R}^{D \times D}$), with the characteristic equation:
+\begin{equation}
+\boldsymbol{\Sigma} \mathbf{u}_i = \lambda_i \mathbf{u}_i
+\end{equation}
+Then the following properties hold:
+\begin{enumerate}
+    \item Its eigenvalues $\lambda_i$ are all real numbers.
+    \item Eigenvectors corresponding to distinct eigenvalues are mutually orthogonal.
+    \item Its set of eigenvectors can be chosen to form an orthonormal basis, satisfying:
+    \begin{equation}
+    \mathbf{u}_i^\top \mathbf{u}_j = \delta_{ij}
+    \end{equation}
+    (where $\delta_{ij}$ is the Kronecker delta function), even if some eigenvalues $\lambda_i = 0$.
+\end{enumerate}
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+We prove the three properties in order.
+
+\noindent\textbf{Part 1: Proving the eigenvalues $\lambda_i$ are real.}
+\begin{enumerate}
+    \item Assume the eigenvalue and eigenvector can be complex: Since $\boldsymbol{\Sigma}$ is a real matrix, its characteristic equation may yield complex eigenvalues and eigenvectors. Let $(\lambda_i, \mathbf{u}_i)$ be an eigenpair, where $\lambda_i$ could be complex and $\mathbf{u}_i$ a complex vector:
+    $$
+    \boldsymbol{\Sigma} \mathbf{u}_i = \lambda_i \mathbf{u}_i
+    $$
+    \item Take the complex conjugate: Taking the conjugate of both sides, and noting that $\overline{\boldsymbol{\Sigma}} = \boldsymbol{\Sigma}$ because $\boldsymbol{\Sigma}$ is real, yields:
+    $$
+    \overline{\boldsymbol{\Sigma} \mathbf{u}_i} = \overline{\lambda_i \mathbf{u}_i} \quad \Rightarrow \quad \boldsymbol{\Sigma} \overline{\mathbf{u}_i} = \overline{\lambda_i} \, \overline{\mathbf{u}_i}
+    $$
+    \item Left-multiply by $\overline{\mathbf{u}_i}^\top$ and equate:
+    \begin{itemize}
+        \item First, left-multiply the first equation by $\overline{\mathbf{u}_i}^\top$:
+        $$
+        \overline{\mathbf{u}_i}^\top \boldsymbol{\Sigma} \mathbf{u}_i = \overline{\mathbf{u}_i}^\top \lambda_i \mathbf{u}_i = \lambda_i (\overline{\mathbf{u}_i}^\top \mathbf{u}_i)
+        $$
+        \item Second, left-multiply the second equation by $\mathbf{u}_i^\top$. Noting that $\mathbf{u}_i^\top \boldsymbol{\Sigma} \overline{\mathbf{u}_i} = (\boldsymbol{\Sigma}^\top \mathbf{u}_i)^\top \overline{\mathbf{u}_i} = (\boldsymbol{\Sigma} \mathbf{u}_i)^\top \overline{\mathbf{u}_i}$ (because $\boldsymbol{\Sigma}$ is symmetric), we get:
+        $$
+        \mathbf{u}_i^\top \boldsymbol{\Sigma} \overline{\mathbf{u}_i} = \mathbf{u}_i^\top \overline{\lambda_i} \, \overline{\mathbf{u}_i} = \overline{\lambda_i} (\mathbf{u}_i^\top \overline{\mathbf{u}_i})
+        $$
+        \item Now, observe the left-hand sides of the two previous equations. Since $\overline{\mathbf{u}_i}^\top \boldsymbol{\Sigma} \mathbf{u}_i$ is a scalar, it is equal to its own transpose:
+        \begin{align*}
+        (\overline{\mathbf{u}_i}^\top \boldsymbol{\Sigma} \mathbf{u}_i)^\top &= \mathbf{u}_i^\top \boldsymbol{\Sigma}^\top \overline{\mathbf{u}_i} \\
+        &= \mathbf{u}_i^\top \boldsymbol{\Sigma} \overline{\mathbf{u}_i} \quad \text{(because $\boldsymbol{\Sigma}$ is symmetric)}
+        \end{align*}
+        This shows the left-hand sides are equal. Therefore, their right-hand sides must also be equal:
+        $$
+        \lambda_i (\overline{\mathbf{u}_i}^\top \mathbf{u}_i) = \overline{\lambda_i} (\mathbf{u}_i^\top \overline{\mathbf{u}_i})
+        $$
+        Note that $\overline{\mathbf{u}_i}^\top \mathbf{u}_i = \mathbf{u}_i^\top \overline{\mathbf{u}_i}$ (both represent the same real, positive scalar inner product of vector $\mathbf{u}_i$ with itself). Let $c = \overline{\mathbf{u}_i}^\top \mathbf{u}_i > 0$ (since $\mathbf{u}_i \neq \mathbf{0}$). We have:
+        $$
+        \lambda_i c = \overline{\lambda_i} c \quad \Rightarrow \quad \lambda_i = \overline{\lambda_i}
+        $$
+        Conclusion: $\lambda_i$ is equal to its own complex conjugate, therefore $\lambda_i$ must be a real number. Q.E.D. for Part 1.
+    \end{itemize}
+\end{enumerate}
+
+\noindent\textbf{Part 2: Proving orthogonality of eigenvectors for distinct eigenvalues.}
+Let $(\lambda_i, \mathbf{u}_i)$ and $(\lambda_j, \mathbf{u}_j)$ be two eigenpairs of $\boldsymbol{\Sigma}$ with $\lambda_i \neq \lambda_j$.
+$$
+\boldsymbol{\Sigma} \mathbf{u}_i = \lambda_i \mathbf{u}_i, \quad \boldsymbol{\Sigma} \mathbf{u}_j = \lambda_j \mathbf{u}_j
+$$
+Left-multiplying the first equation by $\mathbf{u}_j^\top$ and the second by $\mathbf{u}_i^\top$ gives:
+$$
+\mathbf{u}_j^\top \boldsymbol{\Sigma} \mathbf{u}_i = \lambda_i (\mathbf{u}_j^\top \mathbf{u}_i), \quad \mathbf{u}_i^\top \boldsymbol{\Sigma} \mathbf{u}_j = \lambda_j (\mathbf{u}_i^\top \mathbf{u}_j)
+$$
+Take the transpose of the second result. The left-hand side is:
+\begin{align*}
+(\mathbf{u}_i^\top \boldsymbol{\Sigma} \mathbf{u}_j)^\top &= \mathbf{u}_j^\top \boldsymbol{\Sigma}^\top \mathbf{u}_i \\
+&= \mathbf{u}_j^\top \boldsymbol{\Sigma} \mathbf{u}_i \quad \text{(because $\boldsymbol{\Sigma}$ is symmetric)}
+\end{align*}
+The right-hand side of the transposed equation is $\lambda_j (\mathbf{u}_i^\top \mathbf{u}_j)^\top = \lambda_j (\mathbf{u}_j^\top \mathbf{u}_i)$ (since $\lambda_j$ is real). Therefore, we have:
+$$
+\mathbf{u}_j^\top \boldsymbol{\Sigma} \mathbf{u}_i = \lambda_j (\mathbf{u}_j^\top \mathbf{u}_i)
+$$
+Comparing this with the first result, whose left-hand sides are identical, yields:
+$$
+\lambda_i (\mathbf{u}_j^\top \mathbf{u}_i) = \lambda_j (\mathbf{u}_j^\top \mathbf{u}_i) \quad \Rightarrow \quad (\lambda_i - \lambda_j)(\mathbf{u}_j^\top \mathbf{u}_i) = 0
+$$
+Since $\lambda_i \neq \lambda_j$, it follows that $(\lambda_i - \lambda_j) \neq 0$. Therefore, we must have:
+$$
+\mathbf{u}_j^\top \mathbf{u}_i = 0
+$$
+Conclusion: Eigenvectors $\mathbf{u}_i$ and $\mathbf{u}_j$ corresponding to distinct eigenvalues $\lambda_i$ and $\lambda_j$ are orthogonal. Q.E.D. for Part 2.
+
+\noindent\textbf{Part 3: Proving the eigenvectors can be chosen to form an orthonormal basis.}
+\begin{enumerate}
+    \item \textbf{Eigenvalue multiplicity:} For a real symmetric matrix, the algebraic multiplicity of each eigenvalue $\lambda_i$ equals its geometric multiplicity. If an eigenvalue $\lambda$ has multiplicity $k$, the dimension of its corresponding eigenspace $\ker(\boldsymbol{\Sigma} - \lambda \mathbf{I})$ is also $k$.
+    \item \textbf{Handling multiple eigenvalues:} For a single eigenvalue $\lambda_i$ (whether simple or of multiplicity $k$), we can apply the Gram-Schmidt orthogonalization process within its $k$-dimensional eigenspace. From any basis of this subspace, we can construct an orthonormal basis (a set of $k$ mutually orthogonal unit vectors) to serve as the eigenvectors for this eigenvalue.
+    \item \textbf{Handling all eigenspaces:}
+    \begin{itemize}
+        \item For eigenvectors corresponding to \textit{different} eigenvalues, they are automatically orthogonal (proven in Part 2).
+        \item For eigenvectors corresponding to the \textit{same} eigenvalue (multiple roots), we make them orthogonal via the Gram-Schmidt process.
+        \item Combining the orthonormal bases from all eigenspaces yields an orthonormal basis $\{\mathbf{u}_1, \mathbf{u}_2, \ldots, \mathbf{u}_D\}$ for the entire space $\mathbb{R}^D$. This basis consists of the eigenvectors of $\boldsymbol{\Sigma}$.
+    \end{itemize}
+    \item \textbf{Including zero eigenvalues:} Even if some eigenvalues $\lambda_i = 0$, the above process still applies. Eigenvectors corresponding to zero eigenvalues form an orthonormal basis for the null space $\ker(\boldsymbol{\Sigma})$. These vectors remain orthogonal to eigenvectors of other eigenvalues because $0 \neq \lambda_j$.
+\end{enumerate}
+Conclusion: Therefore, the set of eigenvectors of a real symmetric matrix $\boldsymbol{\Sigma}$ can always be chosen, without loss of generality, as an orthonormal basis satisfying $\mathbf{u}_i^\top \mathbf{u}_j = \delta_{ij}$. Q.E.D. for Part 3.
+
+This property is the core content of the spectral theorem for real symmetric matrices.
+\end{proof}
+
+\begin{yellow}
+\begin{theorem}[Spectral Decomposition of a Real Symmetric Matrix and its Inverse]
+Let $\boldsymbol{\Sigma}$ be a $D \times D$ real symmetric matrix with eigenvalues $\lambda_1, \lambda_2, \dots, \lambda_D$ and corresponding orthonormal eigenvectors $\mathbf{u}_1, \mathbf{u}_2, \dots, \mathbf{u}_D$ satisfying:
+$$
+\boldsymbol{\Sigma} \mathbf{u}_i = \lambda_i \mathbf{u}_i, \quad \mathbf{u}_i^\top \mathbf{u}_j = \delta_{ij}
+$$
+Then the matrix $\boldsymbol{\Sigma}$ and its inverse $\boldsymbol{\Sigma}^{-1}$ (assuming all $\lambda_i \neq 0$) can be expressed as:
+$$
+\boldsymbol{\Sigma} = \sum_{i=1}^{D} \lambda_i \mathbf{u}_i \mathbf{u}_i^\top, \quad \boldsymbol{\Sigma}^{-1} = \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top
+$$
+\end{theorem}
+\end{yellow}
+
+\begin{proof}
+We prove the two parts of the theorem in order.
+
+\noindent\textbf{Part 1: Proof that $\boldsymbol{\Sigma} = \sum_{i=1}^{D} \lambda_i \mathbf{u}_i \mathbf{u}_i^\top$.}
+
+Since the set of eigenvectors $\{\mathbf{u}_1, \mathbf{u}_2, \dots, \mathbf{u}_D\}$ forms an orthonormal basis for $\mathbb{R}^D$, any vector $\mathbf{x} \in \mathbb{R}^D$ can be uniquely expressed as a linear combination of these basis vectors:
+$$
+\mathbf{x} = \sum_{j=1}^{D} c_j \mathbf{u}_j
+$$
+where the coefficients $c_j$ are given by the projection $c_j = \mathbf{u}_j^\top \mathbf{x}$. Substituting this expression for $c_j$ yields:
+$$
+\mathbf{x} = \sum_{j=1}^{D} (\mathbf{u}_j^\top \mathbf{x}) \mathbf{u}_j
+$$
+
+Now, we compute $\boldsymbol{\Sigma} \mathbf{x}$ in two different ways.
+
+\noindent\textit{Method 1 (Direct calculation using linearity and the eigenvalue equation):}
+$$
+\boldsymbol{\Sigma} \mathbf{x} = \boldsymbol{\Sigma} \left( \sum_{j=1}^{D} (\mathbf{u}_j^\top \mathbf{x}) \mathbf{u}_j \right) = \sum_{j=1}^{D} (\mathbf{u}_j^\top \mathbf{x}) \boldsymbol{\Sigma} \mathbf{u}_j = \sum_{j=1}^{D} (\mathbf{u}_j^\top \mathbf{x}) \lambda_j \mathbf{u}_j = \sum_{j=1}^{D} \lambda_j (\mathbf{u}_j^\top \mathbf{x}) \mathbf{u}_j
+$$
+
+\noindent\textit{Method 2 (Calculation assuming the spectral decomposition form):}
+$$
+\boldsymbol{\Sigma} \mathbf{x} = \left( \sum_{i=1}^{D} \lambda_i \mathbf{u}_i \mathbf{u}_i^\top \right) \mathbf{x} = \sum_{i=1}^{D} \lambda_i \mathbf{u}_i (\mathbf{u}_i^\top \mathbf{x})
+$$
+Since the summation indices $i$ and $j$ are dummy variables, the expressions from Method 1 and Method 2 are identical:
+$$
+\sum_{j=1}^{D} \lambda_j (\mathbf{u}_j^\top \mathbf{x}) \mathbf{u}_j = \sum_{i=1}^{D} \lambda_i (\mathbf{u}_i^\top \mathbf{x}) \mathbf{u}_i
+$$
+Therefore, for any vector $\mathbf{x}$, we have:
+$$
+\boldsymbol{\Sigma} \mathbf{x} = \left( \sum_{i=1}^{D} \lambda_i \mathbf{u}_i \mathbf{u}_i^\top \right) \mathbf{x}
+$$
+This implies the matrices themselves must be equal:
+$$
+\boldsymbol{\Sigma} = \sum_{i=1}^{D} \lambda_i \mathbf{u}_i \mathbf{u}_i^\top
+$$
+
+\noindent\textbf{Part 2: Proof that $\boldsymbol{\Sigma}^{-1} = \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top$.}
+
+To prove this is the inverse, we show that its product with $\boldsymbol{\Sigma}$ is the identity matrix $\mathbf{I}$.
+$$
+\left( \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top \right) \boldsymbol{\Sigma}
+$$
+Substituting the expression for $\boldsymbol{\Sigma}$ from Part 1 gives:
+$$
+= \left( \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top \right) \left( \sum_{j=1}^{D} \lambda_j \mathbf{u}_j \mathbf{u}_j^\top \right) = \sum_{i=1}^{D} \sum_{j=1}^{D} \frac{1}{\lambda_i} \lambda_j \mathbf{u}_i \mathbf{u}_i^\top \mathbf{u}_j \mathbf{u}_j^\top
+$$
+
+We now simplify this double sum using the orthonormality condition $\mathbf{u}_i^\top \mathbf{u}_j = \delta_{ij}$.
+\begin{itemize}
+    \item If $i \neq j$, then $\mathbf{u}_i^\top \mathbf{u}_j = 0$, so the entire term is zero.
+    \item If $i = j$, then $\mathbf{u}_i^\top \mathbf{u}_i = 1$ and $\frac{1}{\lambda_i} \lambda_i = 1$.
+\end{itemize}
+Thus, the double sum reduces to a single sum over the case $i=j$:
+$$
+\sum_{i=1}^{D} \mathbf{u}_i \mathbf{u}_i^\top
+$$
+
+We now prove that $\sum_{i=1}^{D} \mathbf{u}_i \mathbf{u}_i^\top = \mathbf{I}$. For any vector $\mathbf{x}$:
+$$
+\left( \sum_{i=1}^{D} \mathbf{u}_i \mathbf{u}_i^\top \right) \mathbf{x} = \sum_{i=1}^{D} \mathbf{u}_i (\mathbf{u}_i^\top \mathbf{x})
+$$
+This is the expansion of the vector $\mathbf{x}$ in the orthonormal basis $\{\mathbf{u}_i\}$, which results in $\mathbf{x}$ itself. Therefore:
+$$
+\sum_{i=1}^{D} \mathbf{u}_i \mathbf{u}_i^\top = \mathbf{I}
+$$
+
+Connecting these results:
+$$
+\left( \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top \right) \boldsymbol{\Sigma} = \mathbf{I}
+$$
+By the definition of the inverse matrix, this proves that:
+$$
+\boldsymbol{\Sigma}^{-1} = \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top
+$$
+\end{proof}
+
+We substitute the spectral decomposition of $\boldsymbol{\Sigma}^{-1}$ into the formula for the Mahalanobis distance:
+$$
+\Delta^2 = (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1}(\mathbf{x} - \boldsymbol{\mu})
+$$
+$$
+= (\mathbf{x} - \boldsymbol{\mu})^\top \left( \sum_{i=1}^{D} \frac{1}{\lambda_i} \mathbf{u}_i \mathbf{u}_i^\top \right) (\mathbf{x} - \boldsymbol{\mu})
+$$
+$$
+= \sum_{i=1}^{D} \frac{1}{\lambda_i} (\mathbf{x} - \boldsymbol{\mu})^\top \mathbf{u}_i \mathbf{u}_i^\top (\mathbf{x} - \boldsymbol{\mu})
+$$
+
+Now, we note that $(\mathbf{x} - \boldsymbol{\mu})^\top \mathbf{u}_i$ is a scalar (which can be viewed as the projection length of the vector $(\mathbf{x} - \boldsymbol{\mu})$ onto the basis vector $\mathbf{u}_i$). We denote it as $y_i$:
+$$
+y_i = \mathbf{u}_i^\top (\mathbf{x} - \boldsymbol{\mu})
+$$
+(Because the transpose of a scalar is equal to itself, $(\mathbf{x} - \boldsymbol{\mu})^\top \mathbf{u}_i = y_i$.)
+
+Similarly, $\mathbf{u}_i^\top (\mathbf{x} - \boldsymbol{\mu})$ is also a scalar and equals $y_i$.
+
+Therefore, each term in the previous expression can be rewritten as:
+$$
+\frac{1}{\lambda_i} (\mathbf{x} - \boldsymbol{\mu})^\top \mathbf{u}_i \mathbf{u}_i^\top (\mathbf{x} - \boldsymbol{\mu}) = \frac{1}{\lambda_i} \cdot y_i \cdot y_i = \frac{y_i^2}{\lambda_i}
+$$
+
+Substituting each term back into the summation, we obtain the final scalar summation form:
+$$
+\Delta^2 = \sum_{i=1}^{D} \frac{y_i^2}{\lambda_i}
+$$
+Let $\boldsymbol{y}=(y_1,y_2,\dots, y_D)^T$, then:
+$$
+\boldsymbol{y}=\boldsymbol{U}(\boldsymbol{x}-\boldsymbol{\mu})
+$$
+
+
+\subsection{MATRIX-VECTOR DIFFERENTIATION}
 
 
 \end{document}

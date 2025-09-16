@@ -1,6 +1,6 @@
-% file: mynote.cls
+
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{mynote}[2025/07/10 Custom Note Template]
+\ProvidesClass{bjhh}[2025/07/10 Custom Note Template]
 
 % 基类选项传递
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
